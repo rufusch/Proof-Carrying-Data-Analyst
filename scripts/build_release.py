@@ -5,7 +5,7 @@ from pathlib import Path
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
-TOP={'.gitignore','.dockerignore','.env.example','Dockerfile.sandbox','pyproject.toml','requirements.lock','README.md'}
+TOP={'.gitignore','.dockerignore','.env.example','Dockerfile.sandbox','pyproject.toml','requirements.lock','requirements.txt','streamlit_app.py','README.md'}
 EXTENSIONS={'backend':{'.py','.json'},'frontend':{'.html'},'scripts':{'.py','.cjs','.ps1','.sh'},'tests':{'.py'},'docs':{'.md','.json','.yaml','.png'},'samples':{'.csv','.json','.md'},'datasets':{'.csv','.xlsx','.md'},'.devcontainer':{'.json'},'.github':{'.yml','.yaml'}}
 
 

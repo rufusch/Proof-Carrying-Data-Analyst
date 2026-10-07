@@ -16,6 +16,8 @@ See the [Scope Note](docs/Scope%20Note.md) for MVP and novelty features, and the
 
 ## Technical overview
 
+To use the Streamlit interface, see [Streamlit hosting](docs/streamlit.md) and run `streamlit run streamlit_app.py`. It connects to the existing SureCount backend.
+
 FastAPI implementation of [the v1 contract](docs/frontend-backend-contract.md).
 The complete upload/question/result website is served at `/`, for example
 `http://127.0.0.1:8010/` in the isolated test environment. It supports CSV, XLSX
