@@ -1,64 +1,130 @@
 # SureCount — Proof-Carrying Financial Data Analyst
 
-## Problem
-HNX26PSI08: Proof-Carrying Data Analyst
-Financial analysts spend time finding figures across spreadsheets, checking formulas, and proving where an answer came from. A fluent answer alone is not enough: incorrect filters, duplicate records, or missing exchange rates can change the result.
+## What the project does
 
-## Application and users
+**Problem statement: HNX26PSI08 — Proof-Carrying Data Analyst.** Financial analysts spend time finding spreadsheet figures, checking formulas, and proving where an answer came from. Incorrect filters, duplicates, or missing exchange rates can change the result.
 
-SureCount is a spreadsheet question-answering application built primarily for financial data analysts. Finance teams and reviewers can use it to explore revenue, assets, earnings, period comparisons, and growth while checking the calculation behind each answer.
+SureCount is a spreadsheet question-answering application primarily for financial data analysts, finance teams, and reviewers. Upload CSV or Excel files and ask about revenue, assets, earnings, totals, differences, or growth. Results include units, source evidence, confidence, and expandable **AuditCode** that can be copied and rerun.
 
-## How it works
+The workflow is **upload → profile → interpret/clarify → calculate → independently verify → review → answer**. Agent 1 uses DuckDB SQL; Agent 2 recomputes with Python Decimal arithmetic. An extra reviewer tests selected changes such as duplicate removal. Material disagreements withhold the answer. Missing exchange rates produce specific input requirements and a parameterized recovery form. Sensitivity explains which tested changes affect the result.
 
-Upload one or more CSV or Excel files and ask a question in everyday language. SureCount maps the question to supported fields and calculations, asks for clarification when needed, and executes the calculation in an isolated environment. Agent 1 and Agent 2 independently check the result, while an extra reviewer tests selected data changes. Verified answers include source evidence, a confidence score, and expandable, copyable AuditCode. Missing inputs produce specific next steps instead of a guessed answer.
+## Technologies, libraries, and models
 
-See the [Scope Note](docs/Scope%20Note.md) for MVP and novelty features, and the [Working example](docs/Working%20example.md) for a financial analysis walkthrough.
+| Component | Technology and purpose |
+| --- | --- |
+| Language | Python 3.12+ |
+| Interfaces | HTML/CSS/JavaScript website; Streamlit alternative with requests for external API calls |
+| API and validation | FastAPI, Uvicorn, Pydantic, JSON Schema/jsonschema, PyYAML and OpenAPI |
+| Spreadsheet parsing | pandas, openpyxl for XLSX, xlrd for XLS; CSV parsing and bounded upload validation |
+| Calculations | DuckDB SQL and independently implemented Python Decimal arithmetic |
+| Storage and queue | SQLAlchemy and SQLite; optional PostgreSQL through psycopg |
+| Default intent model | Local supervised TF-IDF nearest-example classifier, packaged in backend/intent_model.json; semantic aliases and a bounded dataset vocabulary ground field selection |
+| Optional model planner | OpenAI SDK/Responses structured-output adapter; user supplies an available model name and API key |
+| Review | Deterministic bounded skeptic, source hashes, identical-unit/filter checks and repeated execution |
+| Isolation | Docker for the API/worker deployment; explicit fixed-library execution for the Streamlit cloud demo |
+| Testing | pytest, httpx/TestClient, Streamlit AppTest; optional Playwright browser checks |
 
-## Technical overview
+The default model needs no API key. Uploaded financial records are parsed and indexed, **not used to train a new language model**. The reviewer is deterministic, not a second trained LLM. See [model training and scope](docs/natural-language-planner.md).
 
-To use the Streamlit interface, see [Streamlit hosting](docs/streamlit.md) and run `streamlit run streamlit_app.py`. With no backend URL configured, it runs a built-in cloud demo with the same calculation checks and no Docker isolation. An optional hosted API URL selects the isolated backend instead. See [Data Pipeline & Tech Stacks](docs/Data%20Pipeline%20%26%20Tech%20Stacks.pptx) for the supplied presentation.
+## Install dependencies
 
-FastAPI implementation of [the v1 contract](docs/frontend-backend-contract.md).
-The complete upload/question/result website is served at `/`, for example
-`http://127.0.0.1:8010/` in the isolated test environment. It supports CSV, XLSX
-and XLS and displays profiles, clarification choices, verification and plain-language calculation evidence. Its responsive interface uses the Tropical Heat palette: turquoise `#00CEC8`, cream `#FCEFC3`, peach `#FF9C5F`, and orange `#EB4203`. No frontend build step or external font/CDN is required.
-The checked-in [OpenAPI document](docs/openapi.yaml) is used to validate incoming
-JSON requests and outgoing resource/error envelopes at runtime. Swagger UI is at
-`http://localhost:8000/api/v1/docs`; the integration base URL is
-`http://localhost:8000/api/v1`.
+Clone the repository and work from its root:
 
-## GitHub-ready source package
-
-The [answer review extensions](docs/novelty-review.md) add verification by Agent 1 and Agent 2, an extra reviewer, measured sensitivity, and copyable AuditCode that reproduces the actual query using normalized source records. The evidence heatmap is removed. A missing exchange-rate refusal includes a parameterized Decimal function and a recovery form; supplied rates are recorded and verified through a new analysis. Sensitivity estimates never invent missing-value bounds, and material deduplication/date/join challenges withhold answer claims. The original API fields are retained, with optional review/recovery fields and a recovery endpoint documented in OpenAPI.
-
-Run `python scripts/build_release.py` to create `dist/hacknex-github-ready.zip` and its SHA-256 checksum. Extract the `hacknex` folder, follow the setup below, and initialize a Git repository there when ready. The archive contains frontend, backend, locked dependencies, API contract, tests, synthetic examples, setup scripts, and CI. It excludes virtual environments, uploaded datasets, databases, logs, local credentials, Git history, and generated artifacts. Packaging does not commit or push anything.
-
-The website supports file selection, drag-and-drop, clearing a pending selection, multiple-file upload, question suggestions, clarification, cancellation, result download, and rerunning calculations. Start with `samples/sales.csv`; try `How much did we make in West?` or `difference between amount and profit`.
-
-## Run on Windows
-
-For GitHub Codespaces, follow the [Codespaces commands](docs/codespaces.md). Financial test files are included in [datasets](datasets/README.md).
-
-Requires Python 3.12+ and a Linux Docker engine (Docker Desktop or dedicated WSL). The API can
-start without Docker, but `/ready` returns 503 and the worker cannot ingest or
-execute jobs. There is intentionally no unsandboxed production fallback.
-
-```powershell
+```bash
+git clone https://github.com/rufusch/Proof-Carrying-Data-Analyst.git
+cd Proof-Carrying-Data-Analyst
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.lock
-Copy-Item .env.example .env
-.\.venv\Scripts\python.exe scripts/build_sandbox.py
 ```
 
-Run each process in its own terminal from this directory:
+Activate the environment:
 
-For the isolated duplicate-datasheet environment on port 8010, see
-[test environment instructions](docs/test-environment.md). On this machine,
-Docker Engine runs in the dedicated `HacknexTest` WSL distribution; set
-`DOCKER_WSL_DISTRO=HacknexTest` when using it. The minimal-context image builder
-avoids Windows/WSL metadata errors and excludes uploads, credentials and logs.
+```bash
+# Linux, macOS or Codespaces
+source .venv/bin/activate
+```
 
 ```powershell
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+```
+
+Choose the dependencies for your deployment:
+
+```bash
+# Streamlit, including the built-in cloud runtime and backend libraries
+python -m pip install -r requirements.txt
+
+# Or: API/worker only, using pinned backend dependencies
+python -m pip install -r requirements.lock
+```
+
+If PowerShell activation is restricted, use `.\.venv\Scripts\python.exe` in place of `python`. The HTML website requires no Node build or external font/CDN.
+
+## Configure and run
+
+### Streamlit: easiest local or cloud demo
+
+```bash
+python -m streamlit run streamlit_app.py
+```
+
+Open the local URL shown by Streamlit, normally http://localhost:8501. With **no SURECOUNT_API_URL configured**, the application runs its built-in backend, queue and verified calculations; no Docker daemon or external API is required. Click **Refresh status** when needed.
+
+For **Streamlit Community Cloud**, select this repository, branch `main`, entrypoint `streamlit_app.py`, and Python **3.12**. Remove any localhost/placeholder `SURECOUNT_API_URL` secret and reboot the app. Dependencies are installed from `requirements.txt`. To use a separately hosted isolated backend instead, configure:
+
+```toml
+# Streamlit app secrets; replace with a real reachable URL
+SURECOUNT_API_URL = "https://your-hosted-surecount-backend.example"
+```
+
+The cloud demo uses fixed library code and retains SQL/Decimal verification, skeptic review and AuditCode. It **does not provide Docker isolation or read-only filesystem mounts**. Use trusted test files. Its temporary storage disappears on restart. Limits: 5 files, 10 MiB per file, 25 MiB total, 50,000 rows, 100 columns and 10 tables. [Full Streamlit instructions](docs/streamlit.md).
+
+### Docker-isolated API and HTML website
+
+Prerequisites: Python 3.12+, installed backend dependencies, and a running Linux Docker engine. Docker Desktop or a dedicated WSL Docker engine can be used on Windows.
+
+Copy `.env.example` to `.env` and configure both the API and worker consistently:
+
+| Setting | Meaning/default |
+| --- | --- |
+| DATA_DIR | Shared normalized records and uploads; default ./data |
+| DATABASE_URL | Shared SQLite queue/state by default; optional PostgreSQL URL |
+| SANDBOX_IMAGE | proof-analyst-sandbox:local |
+| PLANNER | deterministic; no credentials required |
+| DOCKER_WSL_DISTRO | Leave empty for native Docker; set only to an existing Windows WSL Docker distribution |
+| CORS_ORIGINS | Allowed separate browser frontend origins; the bundled website is same-origin |
+| OPENAI_MODEL / OPENAI_API_KEY | Required only when PLANNER=openai |
+
+Never commit `.env` or `.streamlit/secrets.toml`. Optional OpenAI planning sends the question, clarification history and schema metadata, excluding sample rows; headers can still contain sensitive information.
+
+**Linux/macOS/Codespaces**, first terminal:
+
+```bash
+cp .env.example .env
+set -a
+source .env
+set +a
+docker info
+python scripts/build_sandbox.py
+python -m backend.worker
+```
+
+Second terminal, from the same repository with the same virtual environment:
+
+```bash
+source .venv/bin/activate
+set -a
+source .env
+set +a
+python -m uvicorn backend.api:app --host 0.0.0.0 --port 8000
+```
+
+**Windows PowerShell**, build the image, then use separate terminals:
+
+```powershell
+Copy-Item .env.example .env
+# If necessary, export configured Docker variables before building.
+python scripts/build_sandbox.py
 .\scripts\start.ps1 api
 ```
 
@@ -66,187 +132,80 @@ avoids Windows/WSL metadata errors and excludes uploads, credentials and logs.
 .\scripts\start.ps1 worker
 ```
 
-On Linux/macOS, export the variables in `.env`, then use
-`python -m uvicorn backend.api:app --host 127.0.0.1 --port 8000` and
-`python -m backend.worker`. API and worker must share the same database and
-absolute `DATA_DIR`; Docker must be able to bind-mount that directory.
+Open http://localhost:8000 for the website, `/api/v1/docs` for Swagger, or `/api/v1/ready` for readiness. Both processes must share the database and absolute data directory, which Docker must be able to mount. This deployment fails closed without Docker; the Streamlit library runtime is a separate, explicitly disclosed mode. For Codespaces, open forwarded port **8000**. See [Codespaces setup](docs/codespaces.md) or [the isolated port-8010 test environment](docs/test-environment.md).
 
-The default database is SQLite for local development. Set
-`DATABASE_URL=postgresql+psycopg://user:password@localhost:5432/analyst`
-for PostgreSQL. Versioned additive schema migrations run on startup. The durable database
-queue removes the need to operate Redis for this first implementation. Keep
-the API and worker on one host with shared storage. Existing queues are upgraded
-in place; a newer unknown schema version is rejected.
+## Reproduce the demonstrated results
 
-## Planner configuration
+The supplied files are checked in under [datasets](datasets/README.md). Screenshots are in [Working example](docs/Working%20example.md).
 
-Annual financial questions recognize numeric `Year`, `Fiscal Year`, or `Reporting Year` columns. `What is the difference between Total Assets between 2021 and 2022?` computes the 2022 total minus the 2021 total. `Rate of growth for Total Assets between 2021 and 2022` computes that change divided by the 2021 total, times 100. Without specified years, a growth-rate question asks for confirmation of the two latest indexed years and accepts a free-text pair such as `2020 to 2021`. Missing periods are refused. Explicit `($B)`, `($M)`, and `($K)` headers supply display units for period comparisons without changing numeric scale.
+### Screenshot walkthrough
 
-The local dataset parser builds a private, bounded vocabulary from every parsed table: header words and up to 256 distinct short category/date/boolean values per field. Vocabulary construction reads beyond the ten-row preview. Questions can select records without naming the category column (`How much did we make in West?`), use business aliases (`total money made`), or specify numeric conditions (`total sales where revenue is above 100`). Approximate header/value matches and values appearing in multiple fields require confirmation. Existing datasets acquire this index from their hash-checked normalized artifact on their next question. The public profile/result contract is unchanged; category values stay local to the deterministic planner.
+1. Start either interface using the instructions above.
+2. Upload `datasets/McDonalds_Financial_Statements.csv` by itself.
+3. Ask **What is the growth in revenue between 2002 and 2022?**
+4. If asked which field revenue means, choose **Revenue ($B)**, then continue. In Streamlit, refresh status if needed.
+5. Expect baseline **15.4 billion dollars**, comparison **23.18 billion dollars**, change **7.78 billion dollars**, and growth **50.5195%** after rounding.
+6. Check Agent 1 and Agent 2 agreement, review sensitivity, and expand AuditCode to copy the standalone script.
 
-The vocabulary supports grounded calculations, not unrestricted questions or invented business definitions. Missing categories, unsupported clauses, causal explanations and forecasts do not become partial answers. Long free-text cells and values beyond the bounded category index are not indexed.
+The calculation is `(23.18 - 15.4) / 15.4 * 100`. AuditCode contains normalized source records and the actual query; install DuckDB/pandas as instructed in its header and run `python audit_code.py`. Copying AuditCode also copies those records. Confidence is an interpretation heuristic; the screenshot's 98% should not be treated as a fixed expected value or calibrated probability.
 
-The default `PLANNER=deterministic` needs no model credentials. It combines the
-exact query grammar with a trained local intent model and semantic schema matching.
-Questions can use synonyms, spaces, camel case or different plural forms:
+### Automated reproduction: no server or Docker required
 
-* `How much revenue did we make?` (can map to `OrderAmount` or `Total_Sales`)
-* `What is our average sales by region?`
-* `How many orders do we have?`
-* `Could you show me total costs?`
-* `What is the revenue made in the last quarter?`
-* `What is the total revenue?`
-* `Revenue?` (defaults to a total with reduced interpretation confidence)
+After installing dependencies, run:
 
-Ambiguous fields such as gross/net sales require confirmation. Non-literal
-mappings appear in evidence assumptions. Disabling explicit assumptions requires
-confirmation before using them. Entity counts mean non-null values, not distinct
-entities. Several CSV files remain separate tables; matching files require table
-selection and are never silently concatenated. The following explicit syntax is
-also supported:
-
-* `sum amount`
-* `average amount by region`
-* `count rows`
-* `count customer_id by region`
-* `maximum amount`
-* `sum amount and mean amount and count rows by region`
-* `ratio of amount to units`
-* `percentage of profit to amount`
-* `growth of amount from 2025-01 to 2025-02 using day by region`
-* `difference between revenue and cost` (total revenue minus total cost)
-* `subtract cost from revenue by region`
-* `change in revenue from Q2 2025 to Q3 2025 using Quarter`
-* `difference in revenue between the last quarter and the previous quarter`
-* `percentage change in revenue from the previous quarter to the latest quarter`
-
-Differences preserve their sign. Column comparisons subtract totals over the same complete records; period comparisons subtract the earlier period total from the later period total. Missing periods and incompatible currency units are refused. The result explains the operands and subtraction order. These calculations use the existing result/evidence API contract.
-
-If several tables match, the same analysis asks which one to use. Unsupported
-questions are refused rather than partially interpreted. See
-[local model training and scope](docs/natural-language-planner.md).
-
-For natural-language planning, configure both API and worker:
-
-```dotenv
-PLANNER=openai
-OPENAI_MODEL=<a model available to your account with structured outputs>
-OPENAI_API_KEY=<your server-side key>
+```bash
+python scripts/reproduce_demo.py
 ```
 
-The adapter uses the [Responses API structured-output parser](https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=responses).
-Only the question, clarification history and schema/quality metadata go to the
-model; sample rows and sample cell values are excluded. Table and column names
-can still contain sensitive information. Keys stay in the worker environment
-and are not forwarded into execution containers. Model availability is checked
-by the worker and reflected in readiness.
+The script uploads the checked-in CSV through the embedded API, handles the Revenue field clarification, runs the full verification pipeline, and compares the result against an independent Decimal calculation from the original CSV cells. Expected output:
 
-The current engine supports **up to eight basic aggregates** (`count`, `sum`, `mean`, `min`,
-`max`) sharing optional grouping, AND filters, and one explicitly confirmed many-to-one
-inner join. It rejects joins that multiply rows or omit unmatched keys. It
-also supports a ratio or percentage of column totals, or period-over-period
-growth with explicit baseline/current calendar windows. Advanced calculations
-return their component totals and independently checked derived values. They
-cannot be mixed with additional aggregates in one query. Growth requires a
-positive baseline, complete amounts in both periods, and ISO dates or naive
-midnight timestamps. Missing periods are never silently replaced with zero.
-Zero denominators, incomplete ratio inputs and ambiguous dates cause refusal.
-Causal explanations, forecasts and arbitrary Python remain unsupported. These
-limits are advertised by `/capabilities`. A model cannot expand the allowlist.
+```text
+Baseline revenue (2002): 15.4 billion dollars
+Comparison revenue (2022): 23.18 billion dollars
+Change: 7.78 billion dollars
+Growth: 50.5195%
+PASS: source-cell calculation, Agent 1, Agent 2 and extra reviewer agree.
+```
 
-## Frontend integration
+For the supplied Tesla workbook, upload `datasets/Tesla_Financial_Report.xlsx` separately. Ask **What is the revenue made in the last quarter?** and **What is the total revenue?**. Expected numeric results are **28,095** and **503,253**, respectively, in the source Revenue field's units. Latest quarter means the latest quarter present in that workbook, not today's calendar quarter.
 
-1. Read `/capabilities` and `/ready`.
-2. POST `/datasets` with repeated multipart `files` fields and optional `name`.
-3. Poll the returned dataset ID until ready, then fetch its `/profile`.
-4. POST `/analyses` with `dataset_id` and `question`.
-5. Follow `/analyses/{id}/events`, with GET `/analyses/{id}` as polling fallback.
-6. Answer the active clarification using exactly one of `choice_id` or `text`.
-7. Fetch `/result` and `/evidence` when terminal. Only `verification.status=passed`
-   is verified. Refusals before execution have no evidence package.
+To exercise a running Docker-backed test environment on port **8010**, use:
 
-All POST routes accept `Idempotency-Key` (8–128 characters). Keys are scoped to
-the exact route for 24 hours. Replays return the **original accepted response**;
-poll GET for current status. A changed request under the same key returns 409.
-Upload fingerprints cover names, order, sizes and SHA-256 content hashes.
+```bash
+python scripts/test_mcd_http.py datasets/McDonalds_Financial_Statements.csv
+python scripts/test_tesla_http.py datasets/Tesla_Financial_Report.xlsx
+```
 
-SSE begins with a snapshot, replays durable events after a recognized
-`Last-Event-ID`, and emits heartbeats. Unknown/expired IDs trigger a fresh
-snapshot. Snapshot and heartbeat IDs are ephemeral; durable event IDs are
-integers encoded as strings. Clients should tolerate at-least-once delivery.
+These live scripts verify annual asset comparisons and Tesla totals against original cells. They require the port-8010 API and worker described in the test-environment guide.
 
-By default CORS allows `http://localhost:5173`. Configure explicit
-`CORS_ORIGINS` for your frontend. Authentication is deferred per the contract;
-keep this unauthenticated MVP on a trusted network. Put an HTTPS reverse proxy
-in front of it for any non-local deployment. Do not expose the Docker daemon.
+## Validation and limits
 
-## Verification and evidence
+```bash
+python -m pytest -q
+```
 
-* Originals are hashed before parsing and retained under opaque UUIDs.
-* CSV supports UTF-8/UTF-8 BOM and comma delimiters; malformed row widths and
-  duplicate headers fail. Leading-zero and oversized integer identifiers stay
-  text. Decimal values that lose decimal digits or underflow during conversion
-  are retained as text and flagged. Numeric calculations use DuckDB's numeric representation; floating
-  comparisons use relative tolerance `1e-10` and absolute tolerance `1e-9`.
-* XLSX uses bounded decompression and no formula evaluation. Completely empty
-  formatting columns are ignored. Unreadable/formula-containing sheets are
-  excluded with explicit file/sheet warnings; valid sheets remain usable. If no
-  sheet is usable, ingestion fails with the reasons and suggested corrections.
-  Populated columns without headers are never silently removed. XLS uses stored
-  values and carries a freshness warning.
-* Nulls are explicit, duplicates are retained, and no implicit currency/unit
-  conversion or date-order normalization occurs.
-* A consistent currency marker and valid thousands separators can be removed
-  losslessly for arithmetic, with a profile warning and retained display unit.
-  Mixed currencies, ambiguous number formats and precision loss remain text.
-  No exchange-rate conversion or million/billion scaling is inferred.
-* Last/latest quarter means the latest calendar quarter present in the uploaded
-  reporting dates. Its exact window appears in assumptions and evidence filters.
-  Previous quarter means the preceding calendar quarter. Vague financial metric
-  questions can default to a sum; disabling assumptions requires confirmation.
-* Parsing and execution run in fresh containers with no network, read-only
-  inputs/root filesystem, dropped capabilities, non-root user, 768 MiB memory,
-  one CPU, a 60-second CPU limit, a 90-second wall timeout and a 64 MiB scratch
-  directory. Only the fixed typed-query compiler can produce executable SQL.
-  Each container checks its effective isolation before parsing or execution;
-  inadequate isolation fails closed.
-* Every key result is recalculated through a separate Python/Decimal algorithm
-  that does not reuse generated SQL or DuckDB aggregation.
-* A second fresh container must reproduce the canonical output hash.
-* At most three execution attempts are permitted. Unverified claims are omitted;
-  exhausted verification yields refusal, not a fabricated answer.
-* Evidence records source hashes, exact SQL and hash, assumptions, individual
-  checks, attempt history, measured CPU/memory/duration and canonical output hash.
+The standard suite checks parsing, contracts, calculations, recovery, review gates and the embedded runtime. Streamlit UI checks run when Streamlit is installed. Docker-only checks are skipped unless enabled:
 
-Jobs, state, events, clarification history and idempotency records persist in
-the database. A lease and heartbeat allow recovery after a worker crash.
-Cancellation is best effort: an already running container may finish, but its
-output cannot overwrite a cancelled resource. Reruns create new IDs and preserve
-the original evidence. Dataset-linked records expire together after 24 hours;
-the worker cleans expired artifacts every minute. Stop the worker and physical
-cleanup stops too, though API access still expires.
-
-## Tests
+```bash
+# Linux/macOS, after building the sandbox image
+RUN_DOCKER_TESTS=1 python -m pytest -m docker -q
+```
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest -q
+# Windows
+$env:RUN_DOCKER_TESTS='1'
+python -m pytest -m docker -q
 ```
 
-The standard suite exercises the real parsing, SQL and independent calculation
-code using a **test-only in-process sandbox double**. It is not evidence that
-Docker isolation works on the current host. To test the real boundary:
+Passing library tests does not establish Docker isolation. SQL/Decimal outputs are compared at relative tolerance 1e-10 and absolute tolerance 1e-9. Docker mode uses fresh isolated executions; cloud mode repeats fixed-library execution within the app process.
 
-```powershell
-$env:RUN_DOCKER_TESTS = '1'
-.\.venv\Scripts\python.exe -m pytest -m docker -q
-```
+SureCount supports defined spreadsheet operations rather than every financial question, causal explanation or forecast. Files remain separate tables; ambiguous fields require confirmation. Currency recovery applies one explicitly supplied rate to an optionally filtered/grouped total. Sensitivity reports measured scenarios and labeled assumptions, never invented missing-value bounds. The skeptic covers selected alternatives, not all possible interpretations. The unauthenticated API is an MVP intended for trusted environments.
 
-The live model integration requires configured credentials and is not called by
-the offline suite. The implementation has no mock-result mode in the API or
-worker. See [implementation notes](docs/backend-implementation.md) for limits
-and deployment checks.
+## Supporting files and packaging
 
-Five frontend acceptance fixtures are checked in under `docs/fixtures`: happy
-path, clarification, data warnings, refusal after three failed checks, and
-retryable processing failure. They are schema-validated test artifacts, not
-production evidence. Regenerate with `python scripts/export_fixtures.py`.
+- [Scope Note: MVP and novelty features](docs/Scope%20Note.md)
+- [Working example with screenshots](docs/Working%20example.md)
+- [Data Pipeline & Tech Stacks presentation](docs/Data%20Pipeline%20%26%20Tech%20Stacks.pptx)
+- [API specification](docs/openapi.yaml), [original contract](docs/frontend-backend-contract.md), and [review extensions](docs/novelty-review.md)
+
+Run `python scripts/build_release.py` to generate `dist/hacknex-github-ready.zip` and its SHA-256 checksum. The archive includes frontend/backend source, dependencies, docs, supplied test datasets, presentation, tests and CI. It excludes runtime uploads, databases, logs, virtual environments and credentials. Packaging itself does not push to GitHub.
