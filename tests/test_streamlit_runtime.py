@@ -44,5 +44,12 @@ def test_streamlit_cloud_result_view_without_external_backend(monkeypatch):
         assert any('30' in m.value for m in app.metric)
         assert app.expander[0].proto.expanded is False
         assert any('connection.execute' in c.value for c in app.code)
+        # Submitting a new question must not overwrite the form's state key.
+        app.text_area[0].set_value('total revenue')
+        with patch('backend.streamlit_runtime.EmbeddedBackend',return_value=runtime):
+            next(b for b in app.button if b.label=='Find my answer').click().run(timeout=30)
+        assert not app.exception,list(app.exception)
+        assert app.session_state['analysis_id']!=analysis
+        assert any('30' in m.value for m in app.metric)
     finally:
         runtime.close()

@@ -8,7 +8,7 @@ import streamlit as st
 
 
 st.set_page_config(page_title="SureCount", page_icon="✳", layout="wide")
-st.markdown("""<style>.stApp{background:#fffdf5} h1,h2,h3{color:#202c24}
+st.markdown("""<style>
 div.stButton>button{background:#EB4203;color:white;border:0}
 </style>""", unsafe_allow_html=True)
 st.title("SureCount")
@@ -93,7 +93,7 @@ try:
             question = st.text_area("What would you like to know?", placeholder="What is the growth in revenue between 2002 and 2022?")
             if st.form_submit_button("Find my answer", disabled=not ready):
                 if question.strip():
-                    st.session_state.question = question.strip()
+                    st.session_state.last_question = question.strip()
                     analysis_created(api("/analyses", "POST", json={"dataset_id": dataset_id, "question": question.strip()}))
                 else:
                     st.error("Enter a question first.")
