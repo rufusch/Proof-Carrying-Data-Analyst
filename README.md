@@ -35,6 +35,8 @@ The website supports file selection, drag-and-drop, clearing a pending selection
 
 ## Run on Windows
 
+For GitHub Codespaces, follow the [Codespaces commands](docs/codespaces.md). Financial test files are included in [datasets](datasets/README.md).
+
 Requires Python 3.12+ and a Linux Docker engine (Docker Desktop or dedicated WSL). The API can
 start without Docker, but `/ready` returns 503 and the worker cannot ingest or
 execute jobs. There is intentionally no unsandboxed production fallback.
