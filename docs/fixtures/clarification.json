@@ -1,0 +1,175 @@
+{
+  "dataset": {
+    "created_at": "2026-10-06T23:19:00.528425Z",
+    "expires_at": "2026-10-07T23:19:00.528425Z",
+    "files": [
+      {
+        "filename": "sales.csv",
+        "id": "57aee9b6-8601-4dc4-990c-458857e33e7b",
+        "media_type": "text/csv",
+        "sha256": "3da2e49f0b305b848ed87f6f9d039149569ba8c0d4c54e8b79af4634becf30b7",
+        "size_bytes": 22
+      },
+      {
+        "filename": "reference.csv",
+        "id": "487a9405-ede1-44b5-9841-f5855560f329",
+        "media_type": "text/csv",
+        "sha256": "48981c16ccb06477ec0437aa4e0bfca9d6b7ddf85ad39b78b421f299efdcae57",
+        "size_bytes": 22
+      }
+    ],
+    "id": "9fafe40f-d984-487e-85ea-2fe83e9bf043",
+    "name": "Untitled dataset",
+    "status": "ready",
+    "table_count": 2,
+    "warnings": []
+  },
+  "profile": {
+    "dataset_id": "9fafe40f-d984-487e-85ea-2fe83e9bf043",
+    "generated_at": "2026-10-06T23:19:00.587006Z",
+    "join_candidates": [
+      {
+        "confidence": 0.6,
+        "left_column": "region",
+        "left_table": "t_57aee9b686014dc4990c458857e33e7b_0",
+        "reason": "Matching name/type and a candidate key; relationship semantics require confirmation.",
+        "right_column": "region",
+        "right_table": "t_487a9405ede144b59841f5855560f329_1"
+      },
+      {
+        "confidence": 0.6,
+        "left_column": "amount",
+        "left_table": "t_57aee9b686014dc4990c458857e33e7b_0",
+        "reason": "Matching name/type and a candidate key; relationship semantics require confirmation.",
+        "right_column": "amount",
+        "right_table": "t_487a9405ede144b59841f5855560f329_1"
+      }
+    ],
+    "tables": [
+      {
+        "column_count": 2,
+        "columns": [
+          {
+            "candidate_key": true,
+            "distinct_count": 1,
+            "inferred_type": "string",
+            "max": null,
+            "min": null,
+            "name": "region",
+            "null_count": 0,
+            "nullable": false,
+            "sample_values": [
+              "West"
+            ],
+            "warnings": []
+          },
+          {
+            "candidate_key": true,
+            "distinct_count": 1,
+            "inferred_type": "integer",
+            "max": 10,
+            "min": 10,
+            "name": "amount",
+            "null_count": 0,
+            "nullable": false,
+            "sample_values": [
+              10
+            ],
+            "warnings": []
+          }
+        ],
+        "duplicate_row_count": 0,
+        "file_id": "57aee9b6-8601-4dc4-990c-458857e33e7b",
+        "id": "t_57aee9b686014dc4990c458857e33e7b_0",
+        "name": "sales",
+        "row_count": 1,
+        "sample_rows": [
+          {
+            "amount": 10,
+            "region": "West"
+          }
+        ],
+        "sheet_name": null
+      },
+      {
+        "column_count": 2,
+        "columns": [
+          {
+            "candidate_key": true,
+            "distinct_count": 1,
+            "inferred_type": "string",
+            "max": null,
+            "min": null,
+            "name": "region",
+            "null_count": 0,
+            "nullable": false,
+            "sample_values": [
+              "East"
+            ],
+            "warnings": []
+          },
+          {
+            "candidate_key": true,
+            "distinct_count": 1,
+            "inferred_type": "integer",
+            "max": 20,
+            "min": 20,
+            "name": "amount",
+            "null_count": 0,
+            "nullable": false,
+            "sample_values": [
+              20
+            ],
+            "warnings": []
+          }
+        ],
+        "duplicate_row_count": 0,
+        "file_id": "487a9405-ede1-44b5-9841-f5855560f329",
+        "id": "t_487a9405ede144b59841f5855560f329_1",
+        "name": "reference",
+        "row_count": 1,
+        "sample_rows": [
+          {
+            "amount": 20,
+            "region": "East"
+          }
+        ],
+        "sheet_name": null
+      }
+    ],
+    "warnings": []
+  },
+  "analysis": {
+    "clarification": {
+      "allow_free_text": true,
+      "choices": [
+        {
+          "description": "1 rows",
+          "id": "t_57aee9b686014dc4990c458857e33e7b_0",
+          "label": "sales"
+        },
+        {
+          "description": "1 rows",
+          "id": "t_487a9405ede144b59841f5855560f329_1",
+          "label": "reference"
+        }
+      ],
+      "id": "791dd32f-16c7-4de8-82a9-d2e75a335750",
+      "question": "Which table should be analyzed?",
+      "reason": "Several tables match this request."
+    },
+    "created_at": "2026-10-06T23:19:00.651407Z",
+    "dataset_id": "9fafe40f-d984-487e-85ea-2fe83e9bf043",
+    "failure": null,
+    "id": "751543b3-5f9a-478f-bb0b-355cba0fc59d",
+    "outcome": null,
+    "parent_analysis_id": null,
+    "stage": {
+      "code": "needs_clarification",
+      "label": "Needs clarification",
+      "progress_percent": 10
+    },
+    "status": "needs_clarification",
+    "updated_at": "2026-10-06T23:19:00.726739Z"
+  }
+}

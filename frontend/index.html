@@ -1,0 +1,266 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="theme-color" content="#FCEFC3"><meta name="description" content="SureCount turns your spreadsheets into clear, verified answers. Upload data, ask in everyday language, and see how each number was calculated.">
+
+<title>SureCount — Make sense of your data</title>
+
+<style>
+
+:root{--aqua:#00CEC8;--cream:#FCEFC3;--peach:#FF9C5F;--orange:#EB4203;--ink:#202922;--muted:#626a60;--line:#dedfd3;--paper:#fffdf6;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#f7f7ef;font-synthesis:none}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0}button,input,textarea{font:inherit}button,a,input,textarea,summary{outline-offset:5px}a{color:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}[hidden]{display:none!important}.wrap{max-width:1220px;margin:auto;padding:0 32px}.nav{background:var(--cream);border-bottom:1px solid #ddd3ad}.nav-inner{min-height:84px;display:flex;align-items:center;gap:36px}.brand{font-size:25px;font-weight:800;text-decoration:none;letter-spacing:-1px;display:flex;align-items:center;gap:10px}.brand-mark{width:31px;height:31px;background:var(--orange);border-radius:9px;display:grid;place-items:center;color:var(--cream);font-size:22px;transform:rotate(-8deg)}.nav-links{display:flex;gap:26px;margin-left:auto;font-size:14px}.nav-links a{text-decoration:none}.nav-links a:hover{text-decoration:underline}.nav-cta{background:var(--ink);color:var(--cream);padding:12px 18px;border-radius:30px;text-decoration:none;font-size:13px}.hero{background:var(--cream);overflow:hidden}.hero-grid{display:grid;grid-template-columns:1.4fr 1fr;align-items:center;gap:30px;padding-top:55px;padding-bottom:58px}.eyebrow{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:9px}.dot{width:8px;height:8px;border-radius:50%;background:var(--orange)}h1{font-size:clamp(42px,5.6vw,70px);letter-spacing:-3px;line-height:1.04;margin:20px 0}h1 em{color:var(--orange);font-style:normal}p{line-height:1.6}.hero-copy{max-width:485px;font-size:16px;color:#52574b;margin-bottom:26px}.hero-action{display:inline-flex;align-items:center;gap:25px;background:var(--orange);color:white;text-decoration:none;padding:15px 24px;border-radius:8px;font-weight:700;font-size:14px}.hero-tags{display:flex;gap:20px;margin-top:24px;font-size:12px;color:#505c52}.hero-art{position:relative;height:300px;display:grid;place-items:center}.orbit{position:absolute;width:270px;height:270px;border:1px solid #c8bf9b;border-radius:50%}.orbit:after{content:'';position:absolute;inset:22px;border:1px dashed #c8bf9b;border-radius:50%}.art-card{position:relative;z-index:1;width:280px;padding:26px;background:var(--paper);border:1px solid #d3cfbb;box-shadow:12px 12px 0 var(--peach);border-radius:14px;transform:rotate(-5deg)}.art-card small{font-size:10px;letter-spacing:1.5px;font-weight:700}.art-title{font-size:24px;font-weight:700;letter-spacing:-1px;margin:10px 0 22px}.art-bars{display:flex;gap:12px;align-items:end;height:90px;border-bottom:1px solid var(--line);padding:0 10px}.art-bars i{flex:1;border-radius:5px 5px 0 0;background:var(--aqua)}.art-bars i:nth-child(2){background:var(--peach)}.art-bars i:nth-child(3){background:var(--orange)}.art-footer{display:flex;align-items:center;justify-content:space-between;font-size:11px;margin-top:18px}.art-badge{position:absolute;bottom:5px;right:0;z-index:2;background:var(--ink);color:var(--cream);border-radius:30px;padding:12px 20px;font-size:12px}.workspace{padding-top:44px;padding-bottom:55px}.workspace-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:24px}h2{font-size:27px;letter-spacing:-1px;margin:0 0 6px}h3{font-size:18px;margin:0 0 12px}.muted{color:var(--muted);font-size:13px;margin:5px 0}.connection{font-size:12px;border:1px solid var(--line);border-radius:30px;padding:9px 14px;max-width:340px;background:var(--paper)}.connection.good{background:#d7f6e9;color:#235340}.columns{display:grid;grid-template-columns:1fr 1.15fr;gap:22px;align-items:start}.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:28px;min-width:0}.step{display:flex;align-items:center;gap:12px;margin-bottom:20px}.step-num{background:var(--cream);border-radius:10px;font-size:13px;font-weight:700;width:35px;height:35px;display:grid;place-items:center;flex-shrink:0}.step h3{margin:0}.step small{color:var(--muted);font-size:11px}.drop-zone{border:1.5px dashed #94aaa0;background:#f1f7ed;border-radius:12px;text-align:center;padding:27px 14px;transition:.15s}.drop-zone.dragging{background:#d5f4ef;border-color:var(--aqua)}.upload-icon{font-size:26px;display:block;margin-bottom:12px}.drop-zone label{font-size:14px;font-weight:700;display:block;margin-bottom:8px}.drop-zone p{font-size:12px;color:var(--muted);margin:5px 0 17px}input[type=file]{max-width:100%;font-size:12px}input[type=file]::file-selector-button{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font:inherit;color:var(--ink);cursor:pointer}.file-selection{font-size:12px;color:var(--muted);margin-top:14px;overflow-wrap:anywhere}.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:16px}.button,button{background:var(--ink);color:var(--paper);border:1px solid transparent;border-radius:8px;padding:12px 18px;font-size:13px;font-weight:700}.primary{background:var(--orange);color:white}.secondary{background:transparent;color:var(--ink);border-color:var(--line)}button:hover:not(:disabled){filter:brightness(.94)}.wide{width:100%}.text-button{padding:8px 12px;background:transparent;color:var(--muted);text-decoration:underline;font-weight:400}.field-label{display:block;font-size:13px;font-weight:700;margin:0 0 10px}textarea,input[type=text]{border:1px solid #cfd2c4;background:white;border-radius:10px;padding:15px;color:var(--ink);width:100%;max-width:100%}textarea{min-height:140px;resize:vertical;line-height:1.6;font-size:14px}textarea:focus,input:focus{outline:2px solid var(--aqua)}.question-hint{font-size:11px;color:var(--muted);text-align:right;margin-top:7px}.suggestion-label{font-size:11px;color:var(--muted);margin:20px 0 9px}.suggestions{display:flex;gap:7px;flex-wrap:wrap}.suggestions button{border:1px solid var(--line);border-radius:30px;font-size:11px;font-weight:400;padding:8px 12px;background:transparent;color:var(--ink)}.status{padding:11px 14px;background:#efeee2;border-radius:8px;font-size:12px;white-space:pre-wrap;margin:15px 0;overflow-wrap:anywhere}.status.good{background:#d7f6e9;color:#235340}.error{background:#ffe4d8;color:#842804}.scroll{overflow:auto;max-width:100%}table{border-collapse:collapse;width:100%;font-size:12px;margin:15px 0}th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}th{background:#f1f1e7;font-weight:700}#profile h3{font-size:14px;margin-top:25px}#profile p{font-size:11px;color:var(--muted)}#profile .scroll{max-height:210px}details{margin-top:18px;font-size:12px}summary{cursor:pointer;color:var(--muted)}pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:300px;overflow:auto;background:#f1f1e7;padding:14px;font-size:11px}.choices label{display:flex;gap:9px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:8px;margin:8px 0;font-size:13px}.choices input{accent-color:var(--orange)}#clarification-form{padding-top:22px;border-top:1px solid var(--line);margin-top:22px}#free-text{margin:15px 0}progress{width:100%;height:8px;accent-color:var(--aqua)}.results{margin-top:24px;border-top:4px solid var(--aqua)}.results-header{display:flex;justify-content:space-between;align-items:center;gap:20px}.results-header .eyebrow{color:#456052}.result-actions{display:flex;gap:8px;flex-wrap:wrap}.results #headline{font-size:28px;letter-spacing:-1px;margin-top:22px}.metrics{display:flex;flex-wrap:wrap;gap:12px;margin:23px 0}.metric{border:1px solid var(--line);padding:18px;background:var(--cream);border-radius:10px;min-width:150px;flex:1;overflow-wrap:anywhere}.metric span{font-size:11px}.metric strong{display:block;margin-top:10px;font-size:26px;letter-spacing:-1px}#narrative{white-space:pre-line;font-size:14px;line-height:1.9;border-left:3px solid var(--peach);padding-left:20px;overflow-wrap:anywhere}#calculation-evidence{background:#e6f3ea;border-radius:8px;padding:14px;color:#375241}#result-tables h3{margin-top:20px}.guide{border-top:1px solid var(--line);padding:43px 0;background:#efeee3}.guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:35px;margin-top:28px}.guide-grid span{display:inline-block;font-size:12px;font-weight:700;background:var(--peach);padding:6px 9px;border-radius:6px;margin-bottom:14px}.guide-grid h3{font-size:16px}.guide-grid p{font-size:13px;color:var(--muted);margin:0}footer{background:var(--ink);color:var(--cream);padding:25px 0}.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:11px}.footer-inner .brand{font-size:19px}.skip{position:absolute;left:10px;top:-60px;background:var(--paper);padding:10px;z-index:10}.skip:focus{top:10px}@media(max-width:800px){.hero-grid{grid-template-columns:1fr;padding-top:38px}.hero-art{display:none}.columns{grid-template-columns:1fr}.nav-links{gap:15px}.nav-cta{display:none}.wrap{padding-left:20px;padding-right:20px}.workspace-heading{align-items:start;flex-direction:column}.results-header{align-items:start;flex-direction:column}.guide-grid{gap:20px}h1{letter-spacing:-2px}.hero-tags{flex-wrap:wrap;gap:12px}}@media(max-width:500px){.nav-inner{gap:12px;min-height:70px}.nav-links{gap:12px;font-size:12px}.brand{font-size:20px}.card{padding:20px}.guide-grid{grid-template-columns:1fr}.footer-inner{align-items:start;flex-direction:column}.metric{min-width:125px}.hero-grid{padding-bottom:35px}.hero-tags{font-size:11px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+</style><style>.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:25px}.review-box{border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}.evidence-tag{display:inline-block;padding:5px 9px;border-radius:6px;font-size:11px;font-weight:700}.evidence-green{background:#d7f6e9;color:#235340}.evidence-yellow{background:var(--cream);color:#55470c}.evidence-orange{background:var(--peach);color:#582200}.evidence-red{background:#ffe0d8;color:#842804}.review-box h3{font-size:15px}.review-box p{font-size:12px}#recovery-panel{border:1px solid var(--peach);border-radius:10px;padding:20px;margin:20px 0}#recovery-panel input{width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;margin:8px 0 15px}@media(max-width:700px){.review-grid{grid-template-columns:1fr}}</style>
+
+</head>
+
+<body>
+
+<a class="skip" href="#workspace">Skip to workspace</a>
+
+<header class="nav"><div class="wrap nav-inner"><a class="brand" href="#top" aria-label="SureCount home"><span class="brand-mark" aria-hidden="true">✳</span>SureCount<span style="color:var(--orange)">.</span></a><nav class="nav-links" aria-label="Main navigation"><a href="#workspace">Workspace</a><a href="#guide">How it works</a></nav><a class="nav-cta" href="#workspace">Start exploring ↗</a></div></header>
+
+<section class="hero" id="top"><div class="wrap hero-grid"><div><div class="eyebrow"><span class="dot"></span>A little clarity goes a long way</div><h1>Your numbers.<br>A <em>clearer story.</em></h1><p class="hero-copy">Turn spreadsheets into answers you can follow. Ask in your own words, explore the numbers, and see exactly how the result adds up.</p><a class="hero-action" href="#workspace">Explore your data <span aria-hidden="true">↗</span></a><div class="hero-tags"><span>↗ CSV & Excel</span><span>✓ Checked calculations</span><span>◎ Plain-language answers</span></div></div><div class="hero-art" aria-hidden="true"><div class="orbit"></div><div class="art-card"><small>FROM ROWS TO REASONING</small><div class="art-title">Make it make sense.</div><div class="art-bars"><i style="height:40%"></i><i style="height:65%"></i><i style="height:95%"></i><i style="height:72%"></i></div><div class="art-footer"><span>Your data, explained.</span><span>↗</span></div></div><div class="art-badge">A question. A calculation. An answer.</div></div></div></section>
+
+<main id="workspace" class="wrap workspace"><div class="workspace-heading"><div><div class="eyebrow" style="margin-bottom:9px">The analysis workspace</div><h2>Let’s find your answer.</h2><p class="muted">Start with a file. Follow your curiosity.</p></div><div id="connection" class="connection" role="status">Connecting to your workspace…</div></div><div id="error" class="status error" role="alert" hidden></div>
+
+<div class="columns"><section class="card"><div class="step"><span class="step-num">01</span><div><h3>Bring your data</h3><small>One file or a few. We’ll take a look.</small></div></div><form id="upload-form"><div class="drop-zone" id="drop-zone"><span class="upload-icon" aria-hidden="true">⇧</span><label for="files">Drop your spreadsheets here</label><p>Or choose files from your device · CSV, XLSX, XLS</p><input id="files" type="file" accept=".csv,.xlsx,.xls" multiple required aria-describedby="limits"><div id="file-selection" class="file-selection" aria-live="polite"></div></div><p id="limits" class="muted" style="font-size:11px;margin-top:12px"></p><div class="row"><button id="upload" class="primary" type="submit" disabled>Upload & explore ↗</button><button id="clear-files" type="button" class="text-button">Clear selection</button></div></form><div id="dataset-status" class="status" hidden role="status"></div><div id="profile"></div><details id="profile-details" hidden><summary>Dataset profile details</summary><pre id="profile-json"></pre></details></section>
+
+<section class="card"><div class="step"><span class="step-num" style="background:#d5f3e8">02</span><div><h3>Ask something interesting</h3><small>Everyday language. Real calculations.</small></div></div><form id="question-form"><label for="question" class="field-label">What would you like to know?</label><textarea id="question" placeholder="What is the difference in revenue between 2021 and 2022?" required maxlength="4000" aria-describedby="question-help"></textarea><div class="question-hint" id="question-help">Upload your data first, then ask a question.</div><div class="row"><button id="analyze" class="primary wide" type="submit" disabled>Find my answer ↗</button><button id="cancel" class="secondary" type="button" hidden>Cancel analysis</button></div></form><p class="suggestion-label">A few ways to get started</p><div class="suggestions"><button type="button" data-question="What is the total revenue?">Total revenue ↗</button><button type="button" data-question="Rate of growth for revenue">Growth rate ↗</button><button type="button" data-question="Difference between revenue and cost">Compare values ↗</button><button type="button" data-question="How much revenue did we make by region?">Explore by region ↗</button></div><p class="muted" style="font-size:11px;margin-top:17px">Use the metrics in your data. If a field or period is unclear, we’ll ask you to choose.</p><div id="analysis-status" class="status" hidden role="status"></div><progress id="progress" max="100" value="0" hidden aria-label="Analysis progress"></progress><form id="clarification-form" hidden><h3>One quick clarification</h3><p id="clarification-question"></p><p id="clarification-reason" class="muted"></p><div id="choices" class="choices"></div><div id="free-text" hidden><label for="answer-text" class="field-label">Or tell us what you mean</label><input id="answer-text" type="text" maxlength="2000"></div><button id="answer" class="primary" type="submit">Continue analysis ↗</button></form></section></div>
+
+<section id="output" class="card results" hidden aria-live="polite"><div class="results-header"><div><div class="eyebrow">03 / Your answer</div><h2 style="margin-top:10px">Here’s what the data says.</h2></div><div class="result-actions"><button id="rerun" class="secondary" type="button">↻ Run again</button><button id="download" class="secondary" type="button">↓ Download result</button></div></div><div id="verification" class="status"></div><h3 id="headline"></h3><div id="metrics" class="metrics"></div><details id="audit-panel" hidden><summary>AuditCode — view calculation code</summary><button id="copy-audit" class="secondary" type="button" hidden>Copy code</button><pre id="audit-code" hidden></pre></details><p id="narrative"></p><div id="result-tables"></div><div id="notes"></div><p id="calculation-evidence" class="muted" hidden></p><div id="recovery-panel" hidden><h3>Make this question answerable</h3><div id="recovery-requirements"></div><form id="recovery-form" hidden><label for="recovery-rate" id="recovery-label" class="field-label">Exchange rate</label><input id="recovery-rate" type="number" step="any" min="0.000000000001" max="1000000" required><label for="recovery-source" class="field-label">Rate source or provenance note</label><input id="recovery-source" type="text" required minlength="3" maxlength="200" placeholder="For example: March rate supplied by our finance team"><button id="recover" class="primary" type="submit">Supply rate & verify answer</button></form><details id="recovery-template" hidden><summary>Ready-to-run Python template</summary><pre id="recovery-code"></pre></details></div><div id="review-panel" hidden><div class="review-grid"><div class="review-box"><h3>Two independent checks</h3><p id="two-analyst-status"></p><p id="skeptic-status"></p><div id="skeptic-checks"></div></div><div class="review-box"><h3>What would change this?</h3><p class="muted">We change one thing at a time to see how much the answer changes.</p><div id="sensitivity"></div></div></div></div></section>
+
+</main><section id="guide" class="guide"><div class="wrap"><div class="eyebrow">Simple steps. Clear answers.</div><h2 style="margin-top:12px">From spreadsheet to understanding.</h2><div class="guide-grid"><article><span>01</span><h3>Upload your spreadsheets</h3><p>Bring CSV or Excel files with labeled columns. Preview the tables before you start exploring.</p></article><article><span style="background:var(--aqua)">02</span><h3>Ask in your own words</h3><p>Explore totals, averages, differences, groups, and growth. Choose the intended field when a question has more than one meaning.</p></article><article><span style="background:var(--cream)">03</span><h3>Follow the calculation</h3><p>See the source values and formula behind your answer, with a confidence score and independent calculation checks.</p></article></div></div></section><footer><div class="wrap footer-inner"><a class="brand" href="#top">SureCount.</a><span>Your uploaded data expires after 24 hours.</span><a href="/api/v1/docs" target="_blank" rel="noopener">API documentation ↗</a></div></footer>
+
+<script>
+
+'use strict';
+
+const $ = id => document.getElementById(id);
+
+const terminal = new Set(['completed','refused','failed','cancelled']);
+
+let datasetId = null, analysisId = null, clarification = null, resultData = null, capabilities = null, busy = false, profileData = null;
+
+const text = (id, value) => { $(id).textContent = value ?? ''; };
+
+const show = (id, visible=true) => { $(id).hidden = !visible; };
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+function fail(error) { text('error', error.message || String(error)); show('error'); }
+
+function controls() { $('recover').disabled=busy; $('upload').disabled = busy || !capabilities; $('analyze').disabled = busy || !datasetId; $('rerun').disabled = busy || !analysisId; $('files').disabled=busy; $('clear-files').disabled=busy; $('question').readOnly=busy; document.querySelectorAll('[data-question]').forEach(button=>button.disabled=busy); text('question-help',datasetId?'Your dataset is ready. Ask a question to explore it.':'Upload your data first, then ask a question.'); }
+function lock(value) { busy=value; controls(); }
+
+async function api(path, options={}) {
+
+  const response = await fetch('/api/v1'+path, options);
+
+  const body = await response.json();
+
+  if (!response.ok) throw new Error((body.error?.message || 'Request failed') + (body.error?.request_id ? ' · Request '+body.error.request_id : ''));
+
+  return body;
+
+}
+
+function post(path, body) {
+
+  return api(path,{method:'POST',headers:{'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID()},...(body === undefined ? {} : {body:JSON.stringify(body)})});
+
+}
+
+function table(parent, columns, rows) {
+
+  const wrap=document.createElement('div'); wrap.className='scroll';
+
+  const node=document.createElement('table'), head=document.createElement('thead'), tr=document.createElement('tr');
+
+  for(const column of columns) { const cell=document.createElement('th'); cell.textContent=column.label || column.key; tr.append(cell); }
+
+  head.append(tr); node.append(head); const body=document.createElement('tbody');
+
+  for(const row of rows) { const tr=document.createElement('tr'); for(const column of columns) { const cell=document.createElement('td'); const value=row[column.key]; cell.textContent=value === null ? 'null' : (typeof value === 'object' ? JSON.stringify(value) : value ?? ''); tr.append(cell); } body.append(tr); }
+
+  node.append(body); wrap.append(node); parent.append(wrap);
+
+}
+
+function paragraph(parent, value) { const p=document.createElement('p'); p.textContent=value; parent.append(p); }
+
+function renderProfile(profile) {
+
+  profileData=profile;
+
+  $('profile').replaceChildren();
+
+  for(const item of profile.tables) {
+
+    const h=document.createElement('h3'); h.textContent=item.name+(item.sheet_name ? ' · '+item.sheet_name : ''); $('profile').append(h);
+
+    paragraph($('profile'),`${item.row_count} rows · ${item.column_count} columns · ${item.duplicate_row_count} duplicate rows`);
+
+    paragraph($('profile'),item.columns.map(c=>c.name+' ('+c.inferred_type+')').join(', '));
+
+    table($('profile'),item.columns.map(c=>({key:c.name,label:c.name})),item.sample_rows);
+
+  }
+
+  text('profile-json',JSON.stringify(profile,null,2)); show('profile-details');
+
+}
+
+async function pollDataset(id) {
+
+  for(;;) { const data=await api('/datasets/'+id); text('dataset-status',data.status==='ready'?'Dataset ready · '+data.table_count+' tables': 'Dataset status: '+data.status);
+
+    if(data.status==='failed') { const message=data.failure?.message || data.warnings.map(w=>w.message).join(' ') || 'Dataset processing failed.'; text('dataset-status','Dataset failed: '+message); $('dataset-status').className='status error'; throw new Error(message+(data.failure?.retryable?' You can retry this upload.':'')); }
+
+    if(data.status==='ready') return data;
+
+    await sleep(1000);
+
+  }
+
+}
+
+function renderClarification(item) {
+
+  clarification=item; text('clarification-question',item.question); text('clarification-reason',item.reason); $('choices').replaceChildren(); $('answer-text').value='';
+
+  for(const choice of item.choices) { const label=document.createElement('label'), radio=document.createElement('input'); radio.type='radio'; radio.name='choice'; radio.value=choice.id; label.append(radio,document.createTextNode(' '+choice.label)); $('choices').append(label); }
+
+  show('free-text',item.allow_free_text); show('clarification-form');
+
+}
+
+async function renderResult(id) {
+
+  const data=await api('/analyses/'+id+'/result'); resultData=data;
+
+  $('audit-panel').open=false;show('audit-panel',false);show('narrative');text('copy-audit','Copy code');show('audit-code',false);show('copy-audit',false);text('audit-code','');
+  show('output'); text('headline',data.headline || data.outcome); text('narrative',data.narrative);
+
+  text('verification',`Outcome: ${data.outcome} · Verification: ${data.verification.status} · Confidence: ${Math.round(data.confidence.score*100)}% (${data.confidence.band})`);
+
+  $('verification').className='status'+(data.verification.status==='passed'?' good':'');
+
+  $('metrics').replaceChildren(); $('result-tables').replaceChildren(); $('notes').replaceChildren(); show('calculation-evidence',false);
+
+  for(const metric of data.metrics) { const box=document.createElement('div'); box.className='metric'; const label=document.createElement('span'),value=document.createElement('strong'); label.textContent=metric.label; value.textContent=metric.formatted_value; box.append(label,value); $('metrics').append(box); }
+
+  for(const item of data.tables) { const h=document.createElement('h3'); h.textContent=item.title; $('result-tables').append(h); table($('result-tables'),item.columns,item.rows); if(item.truncated) paragraph($('result-tables'),'Showing '+item.rows.length+' of '+item.total_rows+' rows.'); }
+  renderReview(data);
+  if(data.evidence_url && data.outcome==='answered') {
+
+    const evidence=await api('/analyses/'+id+'/evidence');
+    const replay=evidence.code_artifacts.find(item=>item.id==='audit_python');if(replay){show('audit-panel');text('audit-code',replay.source);show('audit-code');show('copy-audit');show('narrative',false);}else{show('narrative');}
+
+
+    const names=evidence.plan.tables.map(id=>profileData?.tables.find(t=>t.id===id)?.name || 'Uploaded table');
+
+    text('calculation-evidence','Calculation evidence: '+names.join(', ')+'. '+(data.verification.status==='passed'?'An independent recalculation matched the answer. ':'')+(data.verification.reproducible?'Repeating the calculation produced the same result.':''));
+
+    show('calculation-evidence');
+
+  }
+
+}
+
+async function follow(id) {
+  analysisId=id; show('analysis-status'); show('progress'); show('cancel');
+
+  try {
+
+    for(;;) { const data=await api('/analyses/'+id); text('analysis-status',data.status+' · '+(data.stage?.label || '')); $('progress').value=data.stage?.progress_percent || 0;
+
+      if(data.status==='needs_clarification') { renderClarification(data.clarification); return; }
+
+      if(terminal.has(data.status)) { show('clarification-form',false); if(data.status==='failed') throw new Error(data.failure?.message || 'Analysis failed.'); await renderResult(id); return; }
+
+      await sleep(1000);
+
+    }
+
+  } finally { show('cancel',false); lock(false); }
+
+}
+
+$('upload-form').addEventListener('submit',async event=>{
+
+  event.preventDefault(); show('error',false); lock(true); datasetId=null; analysisId=null; show('output',false); show('clarification-form',false); $('profile').replaceChildren(); show('profile-details',false); $('dataset-status').className='status';
+
+  try {
+
+    const files=Array.from($('files').files), limits=capabilities.limits;
+
+    if(files.length>limits.max_files) throw new Error('Select at most '+limits.max_files+' files.');
+
+    let size=0; const form=new FormData();
+
+    for(const file of files) { if(!capabilities.file_extensions.includes('.'+file.name.split('.').pop().toLowerCase())) throw new Error('Unsupported file: '+file.name); if(file.size>limits.max_file_bytes) throw new Error('File exceeds the size limit: '+file.name); size+=file.size; form.append('files',file); }
+
+    if(size>limits.max_dataset_bytes) throw new Error('Combined files exceed the dataset size limit.');
+
+    show('dataset-status'); text('dataset-status','Uploading…'); const created=await api('/datasets',{method:'POST',headers:{'Idempotency-Key':crypto.randomUUID()},body:form}); await pollDataset(created.id); renderProfile(await api('/datasets/'+created.id+'/profile')); datasetId=created.id;
+
+  } catch(error) { fail(error); } finally { lock(false); }
+
+});
+
+$('question-form').addEventListener('submit',async event=>{event.preventDefault(); show('error',false); show('output',false); show('clarification-form',false); lock(true); try { const created=await post('/analyses',{dataset_id:datasetId,question:$('question').value.trim()}); await follow(created.id); } catch(error) {fail(error); lock(false);} });
+
+$('clarification-form').addEventListener('submit',async event=>{event.preventDefault(); show('error',false); $('answer').disabled=true; lock(true); try { const free=$('answer-text').value.trim(),selected=document.querySelector('input[name="choice"]:checked'); const answer={clarification_id:clarification.id}; if(free && clarification.allow_free_text) answer.text=free; else if(selected) answer.choice_id=selected.value; else throw new Error('Choose an option or enter an answer.'); await post('/analyses/'+analysisId+'/clarifications',answer); show('clarification-form',false); await follow(analysisId); } catch(error) { fail(error); lock(false); } finally {$('answer').disabled=false;} });
+
+$('cancel').addEventListener('click',async()=>{ $('cancel').disabled=true; try {await post('/analyses/'+analysisId+'/cancel');} catch(error) {fail(error);} finally {$('cancel').disabled=false;} });
+
+$('rerun').addEventListener('click',async()=>{show('error',false); lock(true); try {const created=await post('/analyses/'+analysisId+'/reruns'); show('output',false); await follow(created.id);} catch(error) {fail(error); lock(false);} });
+
+$('download').addEventListener('click',()=>{if(!resultData)return; const url=URL.createObjectURL(new Blob([JSON.stringify(resultData,null,2)],{type:'application/json'})),link=document.createElement('a'); link.href=url; link.download='analysis-'+resultData.analysis_id+'.json'; link.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);});
+
+async function connect() {
+  try { capabilities=await api('/capabilities'); text('limits',`Up to ${capabilities.limits.max_files} files · ${Math.round(capabilities.limits.max_file_bytes/1024/1024)} MiB each · ${Math.round(capabilities.limits.max_dataset_bytes/1024/1024)} MiB total`); controls(); await api('/ready'); text('connection','Workspace ready'); $('connection').className='connection good'; }
+  catch(error) {text('connection','Workspace is warming up or unavailable. '+error.message); $('connection').className='connection';}
+}
+function renderReview(data) {
+  const review=data.review, recovery=data.recovery;
+  show('review-panel',!!review);show('recovery-panel',!!recovery);show('recovery-form',!!recovery?.resume_url);show('recovery-template',!!recovery?.code_template);
+  $('recovery-requirements').replaceChildren();
+  for(const item of recovery?.requirements || []) paragraph($('recovery-requirements'),item);
+  text('recovery-code',recovery?.code_template);text('recovery-label',recovery?.parameters?.[0]?.label);$('recovery-rate').value='';$('recovery-source').value='';
+  if(!review)return;
+  text('two-analyst-status',review.two_analyst.status==='passed'?'Agent 1 and Agent 2 calculated the answer separately and got the same result.':'Agent 1 and Agent 2 could not verify the same answer.');
+  text('skeptic-status',review.skeptic.status==='passed'?'The extra reviewer found no conflicting answer in the checks it ran.':review.skeptic.status==='failed'?'The extra reviewer found a change that could affect the answer. Fix the data issue below and try again.':'The extra reviewer will run once the missing information is supplied.');
+  $('skeptic-checks').replaceChildren();
+  for(const check of review.skeptic.checks || []) {if(check.status==='failed')paragraph($('skeptic-checks'),'Needs attention: '+check.detail);}
+  $('sensitivity').replaceChildren();
+  const number=value=>value===null?'Unavailable':Number(value.toPrecision(8)).toString();
+  if(data.outcome!=='answered')paragraph($('sensitivity'),'These changes explain why we could not safely release the answer.');
+  for(const component of review.sensitivity) {
+    const label=data.metrics.find(m=>m.id==='metric_'+component.key)?.label || data.tables[0]?.columns.find(c=>c.key===component.key)?.label || component.key;
+    if(!component.impacts.some(item=>item.delta!==null && Math.abs(item.delta)>1e-9)) {paragraph($('sensitivity'),'The checks did not change '+(label==='value'?'the result':label)+'.');}
+    const impacts=component.impacts.filter(item=>item.delta!==null && Math.abs(item.delta)>1e-9);
+    if(impacts.length)table($('sensitivity'),[{key:'scenario',label:'Scenario'},{key:'delta',label:'Change'},{key:'percent',label:'Relative change'},{key:'basis',label:'Basis'}],impacts.map(item=>({scenario:item.scenario,delta:number(item.delta),percent:item.percent_change===null?'Cannot calculate a percentage from zero':number(item.percent_change)+'%',basis:item.assumption || 'Recalculated from your data'})));
+  }
+  for(const message of review.unknown_impacts)paragraph($('sensitivity'),message);
+
+}
+$('copy-audit').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('audit-code').textContent);text('copy-audit','Copied');}catch{const range=document.createRange();range.selectNodeContents($('audit-code'));const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);text('copy-audit','Select and copy with Ctrl+C');}});
+$('recovery-form').addEventListener('submit',async event=>{event.preventDefault();if(!resultData?.recovery?.resume_url)return;show('error',false);lock(true);try {const rate=Number($('recovery-rate').value);if(!Number.isFinite(rate)||rate<=0||rate>1000000)throw new Error('Supply a positive exchange rate up to 1000000.');const path=resultData.recovery.resume_url.replace('/api/v1','');const created=await post(path,{rate,rate_source:$('recovery-source').value.trim()});show('output',false);await follow(created.id);}catch(error){fail(error);lock(false);}});
+function selectionChanged() { const files=Array.from($('files').files); text('file-selection',files.length?files.map(file=>file.name).join(' · '):''); }
+$('files').addEventListener('change',selectionChanged);
+$('clear-files').addEventListener('click',()=>{if(busy)return; $('files').value=''; selectionChanged();});
+document.querySelectorAll('[data-question]').forEach(button=>button.addEventListener('click',()=>{if(busy)return; $('question').value=button.dataset.question; $('question').focus();}));
+for(const type of ['dragenter','dragover']) $('drop-zone').addEventListener(type,event=>{event.preventDefault();if(!busy)$('drop-zone').classList.add('dragging');});
+for(const type of ['dragleave','drop']) $('drop-zone').addEventListener(type,event=>{event.preventDefault();$('drop-zone').classList.remove('dragging');});
+$('drop-zone').addEventListener('drop',event=>{if(busy || !event.dataTransfer.files.length)return; $('files').files=event.dataTransfer.files;selectionChanged();});
+connect(); setInterval(connect,15000);
+</script>
+
+</body></html>
+

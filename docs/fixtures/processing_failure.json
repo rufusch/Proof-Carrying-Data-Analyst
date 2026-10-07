@@ -1,0 +1,135 @@
+{
+  "dataset": {
+    "created_at": "2026-10-06T23:19:03.251726Z",
+    "expires_at": "2026-10-07T23:19:03.251726Z",
+    "files": [
+      {
+        "filename": "sales.csv",
+        "id": "dc3212d8-0b8f-48d7-9dd7-525a63a827d7",
+        "media_type": "text/csv",
+        "sha256": "628fbbd099ed015d810b117afa7958d0761f97362a4a161039aa46b1c742d3f6",
+        "size_bytes": 10
+      }
+    ],
+    "id": "034a73a3-5996-4ff8-83e7-50e08ca0250f",
+    "name": "Untitled dataset",
+    "status": "ready",
+    "table_count": 1,
+    "warnings": []
+  },
+  "profile": {
+    "dataset_id": "034a73a3-5996-4ff8-83e7-50e08ca0250f",
+    "generated_at": "2026-10-06T23:19:03.336170Z",
+    "join_candidates": [],
+    "tables": [
+      {
+        "column_count": 1,
+        "columns": [
+          {
+            "candidate_key": true,
+            "distinct_count": 1,
+            "inferred_type": "integer",
+            "max": 10,
+            "min": 10,
+            "name": "amount",
+            "null_count": 0,
+            "nullable": false,
+            "sample_values": [
+              10
+            ],
+            "warnings": []
+          }
+        ],
+        "duplicate_row_count": 0,
+        "file_id": "dc3212d8-0b8f-48d7-9dd7-525a63a827d7",
+        "id": "t_dc3212d80b8f48d79dd7525a63a827d7_0",
+        "name": "sales",
+        "row_count": 1,
+        "sample_rows": [
+          {
+            "amount": 10
+          }
+        ],
+        "sheet_name": null
+      }
+    ],
+    "warnings": []
+  },
+  "analysis": {
+    "clarification": null,
+    "created_at": "2026-10-06T23:19:03.488584Z",
+    "dataset_id": "034a73a3-5996-4ff8-83e7-50e08ca0250f",
+    "failure": {
+      "code": "FAILED",
+      "message": "Isolated worker unavailable or resource limit exceeded.",
+      "retryable": true
+    },
+    "id": "0dd39e97-a944-4e3a-83d6-3c932a4a1cf2",
+    "outcome": "failed",
+    "parent_analysis_id": null,
+    "stage": {
+      "code": "failed",
+      "label": "Failed",
+      "progress_percent": 100
+    },
+    "status": "failed",
+    "updated_at": "2026-10-06T23:19:03.727349Z"
+  },
+  "result": {
+    "analysis_id": "0dd39e97-a944-4e3a-83d6-3c932a4a1cf2",
+    "assumptions": [],
+    "charts": [],
+    "confidence": {
+      "band": "low",
+      "factors": [
+        {
+          "explanation": "Not established.",
+          "name": "ambiguity",
+          "score": 0,
+          "weight": 0.25
+        },
+        {
+          "explanation": "Not established.",
+          "name": "data_quality",
+          "score": 0,
+          "weight": 0.2
+        },
+        {
+          "explanation": "Not established.",
+          "name": "execution",
+          "score": 0,
+          "weight": 0.15
+        },
+        {
+          "explanation": "Not established.",
+          "name": "verification",
+          "score": 0,
+          "weight": 0.25
+        },
+        {
+          "explanation": "Not established.",
+          "name": "reproducibility",
+          "score": 0,
+          "weight": 0.15
+        }
+      ],
+      "score": 0.0,
+      "summary": "Confidence reflects recorded ambiguity, quality and verification checks.",
+      "version": "confidence-v1"
+    },
+    "evidence_url": null,
+    "headline": null,
+    "metrics": [],
+    "narrative": "Isolated worker unavailable or resource limit exceeded.",
+    "outcome": "failed",
+    "tables": [],
+    "verification": {
+      "checks_failed": 0,
+      "checks_passed": 0,
+      "output_hash": null,
+      "reproducible": false,
+      "status": "not_run"
+    },
+    "warnings": []
+  }
+}

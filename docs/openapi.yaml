@@ -1,0 +1,730 @@
+openapi: 3.1.0
+info:
+  title: Proof-Carrying Data Analyst API
+  version: 1.0.0
+  description: Stable MVP boundary for dataset ingestion, asynchronous analysis, verification, and evidence.
+servers:
+  - url: /api/v1
+tags:
+  - name: System
+  - name: Datasets
+  - name: Analyses
+paths:
+  /health:
+    get:
+      tags: [System]
+      operationId: getHealth
+      responses:
+        '200':
+          description: Process is alive.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Health'}
+  /ready:
+    get:
+      tags: [System]
+      operationId: getReadiness
+      responses:
+        '200':
+          description: All required dependencies are ready.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Readiness'}
+        '503': {$ref: '#/components/responses/ServiceUnavailable'}
+  /capabilities:
+    get:
+      tags: [System]
+      operationId: getCapabilities
+      responses:
+        '200':
+          description: Effective deployment capabilities and limits.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Capabilities'}
+  /datasets:
+    post:
+      tags: [Datasets]
+      operationId: createDataset
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [files]
+              properties:
+                name: {type: string, minLength: 1, maxLength: 100}
+                files:
+                  type: array
+                  minItems: 1
+                  maxItems: 10
+                  items: {type: string, format: binary}
+      responses:
+        '202':
+          description: Upload accepted and profiling started.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Dataset'}
+        '413': {$ref: '#/components/responses/RequestTooLarge'}
+        '415': {$ref: '#/components/responses/UnsupportedMediaType'}
+        '422': {$ref: '#/components/responses/ValidationError'}
+  /datasets/{dataset_id}:
+    parameters:
+      - $ref: '#/components/parameters/DatasetId'
+    get:
+      tags: [Datasets]
+      operationId: getDataset
+      responses:
+        '200':
+          description: Dataset metadata and current status.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Dataset'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /datasets/{dataset_id}/profile:
+    parameters:
+      - $ref: '#/components/parameters/DatasetId'
+    get:
+      tags: [Datasets]
+      operationId: getDatasetProfile
+      responses:
+        '200':
+          description: Completed profile.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/DatasetProfile'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /analyses:
+    post:
+      tags: [Analyses]
+      operationId: createAnalysis
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/CreateAnalysisRequest'}
+      responses:
+        '202':
+          description: Analysis queued.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Analysis'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '422': {$ref: '#/components/responses/ValidationError'}
+  /analyses/{analysis_id}:
+    parameters:
+      - $ref: '#/components/parameters/AnalysisId'
+    get:
+      tags: [Analyses]
+      operationId: getAnalysis
+      responses:
+        '200':
+          description: Current analysis state.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Analysis'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /analyses/{analysis_id}/events:
+    parameters:
+      - $ref: '#/components/parameters/AnalysisId'
+      - name: Last-Event-ID
+        in: header
+        required: false
+        schema: {type: string}
+    get:
+      tags: [Analyses]
+      operationId: streamAnalysisEvents
+      responses:
+        '200':
+          description: SSE stream. Events are snapshot, stage.changed, clarification.required, analysis.terminal, and heartbeat.
+          content:
+            text/event-stream:
+              schema: {type: string}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /analyses/{analysis_id}/clarifications:
+    parameters:
+      - $ref: '#/components/parameters/AnalysisId'
+    post:
+      tags: [Analyses]
+      operationId: answerClarification
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/ClarificationAnswer'}
+      responses:
+        '202':
+          description: Clarification accepted; analysis resumed.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Analysis'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '422': {$ref: '#/components/responses/ValidationError'}
+  /analyses/{analysis_id}/result:
+    parameters:
+      - $ref: '#/components/parameters/AnalysisId'
+    get:
+      tags: [Analyses]
+      operationId: getAnalysisResult
+      responses:
+        '200':
+          description: Terminal analysis result.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AnalysisResult'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /analyses/{analysis_id}/evidence:
+    parameters:
+      - $ref: '#/components/parameters/AnalysisId'
+    get:
+      tags: [Analyses]
+      operationId: getAnalysisEvidence
+      responses:
+        '200':
+          description: Immutable evidence manifest.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/EvidencePackage'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /analyses/{analysis_id}/reruns:
+    parameters:
+      - $ref: '#/components/parameters/AnalysisId'
+    post:
+      tags: [Analyses]
+      operationId: rerunAnalysis
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question: {type: string, minLength: 3, maxLength: 4000}
+      responses:
+        '202':
+          description: New immutable analysis queued.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Analysis'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /analyses/{analysis_id}/cancel:
+    parameters:
+      - $ref: '#/components/parameters/AnalysisId'
+    post:
+      tags: [Analyses]
+      operationId: cancelAnalysis
+      responses:
+        '202':
+          description: Cancellation accepted or analysis already cancelled.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Analysis'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /analyses/{analysis_id}/recovery:
+    post:
+      operationId: recoverAnalysis
+      summary: Supply a missing exchange rate and create a new verified analysis
+      parameters:
+        - {name: analysis_id, in: path, required: true, schema: {type: string, format: uuid}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/RecoveryAnswer'}
+      responses:
+        '202':
+          description: Recovery analysis queued
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Analysis'}
+
+components:
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: false
+      schema: {type: string, minLength: 8, maxLength: 128}
+    DatasetId:
+      name: dataset_id
+      in: path
+      required: true
+      schema: {type: string, format: uuid}
+    AnalysisId:
+      name: analysis_id
+      in: path
+      required: true
+      schema: {type: string, format: uuid}
+  responses:
+    NotFound:
+      description: Resource not found or expired.
+      content: {application/json: {schema: {$ref: '#/components/schemas/ErrorEnvelope'}}}
+    Conflict:
+      description: Resource state conflicts with this operation.
+      content: {application/json: {schema: {$ref: '#/components/schemas/ErrorEnvelope'}}}
+    RequestTooLarge:
+      description: A file or bundle exceeds effective limits.
+      content: {application/json: {schema: {$ref: '#/components/schemas/ErrorEnvelope'}}}
+    UnsupportedMediaType:
+      description: One or more file types are unsupported.
+      content: {application/json: {schema: {$ref: '#/components/schemas/ErrorEnvelope'}}}
+    ValidationError:
+      description: Request fields are invalid.
+      content: {application/json: {schema: {$ref: '#/components/schemas/ErrorEnvelope'}}}
+    ServiceUnavailable:
+      description: A required dependency is unavailable.
+      content: {application/json: {schema: {$ref: '#/components/schemas/ErrorEnvelope'}}}
+  schemas:
+    Health:
+      type: object
+      additionalProperties: false
+      required: [status, version]
+      properties:
+        status: {const: ok}
+        version: {type: string}
+    Readiness:
+      type: object
+      additionalProperties: false
+      required: [status, checks]
+      properties:
+        status: {type: string, enum: [ready, not_ready]}
+        checks:
+          type: object
+          additionalProperties: {type: string, enum: [ready, not_ready]}
+    Capabilities:
+      type: object
+      additionalProperties: true
+      required: [contract_version, file_extensions, limits, result_types, features]
+      properties:
+        contract_version: {const: '1.0'}
+        file_extensions:
+          type: array
+          items: {type: string, enum: [.csv, .xlsx, .xls]}
+        limits:
+          type: object
+          required: [max_files, max_file_bytes, max_dataset_bytes, retention_hours]
+          properties:
+            max_files: {type: integer, minimum: 1}
+            max_file_bytes: {type: integer, minimum: 1}
+            max_dataset_bytes: {type: integer, minimum: 1}
+            retention_hours: {type: integer, minimum: 1}
+        result_types:
+          type: array
+          items: {type: string, enum: [text, metric, table, chart]}
+        features:
+          type: object
+          additionalProperties: {type: boolean}
+    DatasetStatus:
+      type: string
+      enum: [uploading, profiling, ready, failed]
+    DatasetFile:
+      type: object
+      additionalProperties: false
+      required: [id, filename, media_type, size_bytes, sha256]
+      properties:
+        id: {type: string, format: uuid}
+        filename: {type: string}
+        media_type: {type: string}
+        size_bytes: {type: integer, minimum: 0}
+        sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+    Warning:
+      type: object
+      additionalProperties: false
+      required: [code, message, severity]
+      properties:
+        code: {type: string}
+        message: {type: string}
+        severity: {type: string, enum: [info, warning, critical]}
+        table_id: {type: [string, 'null']}
+        column: {type: [string, 'null']}
+    Dataset:
+      type: object
+      additionalProperties: false
+      required: [id, name, status, created_at, expires_at, files, table_count, warnings]
+      properties:
+        id: {type: string, format: uuid}
+        name: {type: string}
+        status: {$ref: '#/components/schemas/DatasetStatus'}
+        created_at: {type: string, format: date-time}
+        expires_at: {type: string, format: date-time}
+        files: {type: array, items: {$ref: '#/components/schemas/DatasetFile'}}
+        table_count: {type: [integer, 'null'], minimum: 0}
+        warnings: {type: array, items: {$ref: '#/components/schemas/Warning'}}
+        failure: {anyOf: [{$ref: '#/components/schemas/Failure'}, {type: 'null'}]}
+    DatasetProfile:
+      type: object
+      additionalProperties: false
+      required: [dataset_id, generated_at, tables, join_candidates, warnings]
+      properties:
+        dataset_id: {type: string, format: uuid}
+        generated_at: {type: string, format: date-time}
+        tables: {type: array, items: {$ref: '#/components/schemas/TableProfile'}}
+        join_candidates: {type: array, items: {$ref: '#/components/schemas/JoinCandidate'}}
+        warnings: {type: array, items: {$ref: '#/components/schemas/Warning'}}
+    TableProfile:
+      type: object
+      additionalProperties: false
+      required: [id, file_id, name, sheet_name, row_count, column_count, duplicate_row_count, columns, sample_rows]
+      properties:
+        id: {type: string}
+        file_id: {type: string, format: uuid}
+        name: {type: string}
+        sheet_name: {type: [string, 'null']}
+        row_count: {type: integer, minimum: 0}
+        column_count: {type: integer, minimum: 0}
+        duplicate_row_count: {type: integer, minimum: 0}
+        columns: {type: array, items: {$ref: '#/components/schemas/ColumnProfile'}}
+        sample_rows:
+          type: array
+          maxItems: 20
+          items: {type: object, additionalProperties: true}
+    ColumnProfile:
+      type: object
+      additionalProperties: false
+      required: [name, inferred_type, nullable, null_count, distinct_count, sample_values, warnings]
+      properties:
+        name: {type: string}
+        inferred_type: {type: string, enum: [integer, number, boolean, string, date, datetime, currency, unknown]}
+        nullable: {type: boolean}
+        null_count: {type: integer, minimum: 0}
+        distinct_count: {type: integer, minimum: 0}
+        min: {}
+        max: {}
+        sample_values: {type: array, maxItems: 10, items: {}}
+        candidate_key: {type: boolean, default: false}
+        warnings: {type: array, items: {$ref: '#/components/schemas/Warning'}}
+    JoinCandidate:
+      type: object
+      additionalProperties: false
+      required: [left_table, left_column, right_table, right_column, confidence, reason]
+      properties:
+        left_table: {type: string}
+        left_column: {type: string}
+        right_table: {type: string}
+        right_column: {type: string}
+        confidence: {type: number, minimum: 0, maximum: 1}
+        reason: {type: string}
+    CreateAnalysisRequest:
+      type: object
+      additionalProperties: false
+      required: [dataset_id, question]
+      properties:
+        dataset_id: {type: string, format: uuid}
+        question: {type: string, minLength: 3, maxLength: 4000}
+        preferences:
+          type: object
+          additionalProperties: false
+          properties:
+            answer_format: {type: string, enum: [auto, text, table, chart], default: auto}
+            allow_explicit_assumptions: {type: boolean, default: true}
+    AnalysisStatus:
+      type: string
+      enum: [queued, analyzing_question, needs_clarification, planning, generating_code, safety_check, executing, verifying, repairing, packaging_evidence, completed, refused, failed, cancelled]
+    Outcome:
+      type: [string, 'null']
+      enum: [answered, partial, refused, failed, cancelled, null]
+    Stage:
+      type: object
+      additionalProperties: false
+      required: [code, label, progress_percent]
+      properties:
+        code: {$ref: '#/components/schemas/AnalysisStatus'}
+        label: {type: string}
+        progress_percent: {type: integer, minimum: 0, maximum: 100}
+    Analysis:
+      type: object
+      additionalProperties: false
+      required: [id, dataset_id, parent_analysis_id, status, outcome, stage, created_at, updated_at, clarification, failure]
+      properties:
+        id: {type: string, format: uuid}
+        dataset_id: {type: string, format: uuid}
+        parent_analysis_id: {type: [string, 'null'], format: uuid}
+        status: {$ref: '#/components/schemas/AnalysisStatus'}
+        outcome: {$ref: '#/components/schemas/Outcome'}
+        stage: {$ref: '#/components/schemas/Stage'}
+        created_at: {type: string, format: date-time}
+        updated_at: {type: string, format: date-time}
+        clarification: {anyOf: [{$ref: '#/components/schemas/Clarification'}, {type: 'null'}]}
+        failure: {anyOf: [{$ref: '#/components/schemas/Failure'}, {type: 'null'}]}
+    Clarification:
+      type: object
+      additionalProperties: false
+      required: [id, question, reason, choices, allow_free_text]
+      properties:
+        id: {type: string}
+        question: {type: string}
+        reason: {type: string}
+        choices:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, label, description]
+            properties:
+              id: {type: string}
+              label: {type: string}
+              description: {type: string}
+        allow_free_text: {type: boolean}
+    ClarificationAnswer:
+      type: object
+      additionalProperties: false
+      required: [clarification_id]
+      properties:
+        clarification_id: {type: string}
+        choice_id: {type: string}
+        text: {type: string, minLength: 1, maxLength: 2000}
+      oneOf:
+        - required: [choice_id]
+          not: {required: [text]}
+        - required: [text]
+          not: {required: [choice_id]}
+    Failure:
+      type: object
+      additionalProperties: false
+      required: [code, message, retryable]
+      properties:
+        code: {type: string}
+        message: {type: string}
+        retryable: {type: boolean}
+    AnalysisResult:
+      type: object
+      additionalProperties: false
+      required: [analysis_id, outcome, headline, narrative, metrics, tables, charts, assumptions, warnings, confidence, verification, evidence_url]
+      properties:
+        analysis_id: {type: string, format: uuid}
+        outcome: {type: string, enum: [answered, partial, refused, failed, cancelled]}
+        headline: {type: [string, 'null']}
+        narrative: {type: [string, 'null']}
+        metrics: {type: array, items: {$ref: '#/components/schemas/MetricResult'}}
+        tables: {type: array, items: {$ref: '#/components/schemas/TableResult'}}
+        charts: {type: array, items: {$ref: '#/components/schemas/ChartResult'}}
+        assumptions: {type: array, items: {$ref: '#/components/schemas/Assumption'}}
+        warnings: {type: array, items: {$ref: '#/components/schemas/Warning'}}
+        confidence: {$ref: '#/components/schemas/Confidence'}
+        verification: {$ref: '#/components/schemas/VerificationSummary'}
+        evidence_url: {type: [string, 'null']}
+        review: {$ref: '#/components/schemas/AnswerReview'}
+        recovery: {$ref: '#/components/schemas/AnswerRecovery'}
+    MetricResult:
+      type: object
+      additionalProperties: false
+      required: [id, label, value, formatted_value, unit, evidence_refs]
+      properties:
+        id: {type: string}
+        label: {type: string}
+        value: {type: [number, integer, string, 'null']}
+        formatted_value: {type: string}
+        unit: {type: [string, 'null']}
+        evidence_refs: {type: array, items: {type: string}}
+    TableResult:
+      type: object
+      additionalProperties: false
+      required: [id, title, columns, rows, total_rows, truncated, evidence_refs]
+      properties:
+        id: {type: string}
+        title: {type: string}
+        columns:
+          type: array
+          items:
+            type: object
+            required: [key, label, type]
+            properties:
+              key: {type: string}
+              label: {type: string}
+              type: {type: string, enum: [string, number, integer, boolean, date, datetime]}
+        rows: {type: array, maxItems: 500, items: {type: object, additionalProperties: true}}
+        total_rows: {type: integer, minimum: 0}
+        truncated: {type: boolean}
+        evidence_refs: {type: array, items: {type: string}}
+    ChartResult:
+      type: object
+      additionalProperties: false
+      required: [id, title, type, x_key, y_keys, data, evidence_refs]
+      properties:
+        id: {type: string}
+        title: {type: string}
+        type: {type: string, enum: [bar, line, area, scatter]}
+        x_key: {type: string}
+        y_keys: {type: array, items: {type: string}}
+        data: {type: array, maxItems: 500, items: {type: object, additionalProperties: true}}
+        evidence_refs: {type: array, items: {type: string}}
+    Assumption:
+      type: object
+      additionalProperties: false
+      required: [id, text, source, impact]
+      properties:
+        id: {type: string}
+        text: {type: string}
+        source: {type: string, enum: [user, inferred, system]}
+        impact: {type: string}
+    Confidence:
+      type: object
+      additionalProperties: false
+      required: [score, band, version, summary, factors]
+      properties:
+        score: {type: number, minimum: 0, maximum: 1}
+        band: {type: string, enum: [low, medium, high]}
+        version: {type: string}
+        summary: {type: string}
+        factors: {type: array, items: {$ref: '#/components/schemas/ConfidenceFactor'}}
+    ConfidenceFactor:
+      type: object
+      additionalProperties: false
+      required: [name, score, weight, explanation]
+      properties:
+        name: {type: string, enum: [ambiguity, data_quality, execution, verification, reproducibility]}
+        score: {type: number, minimum: 0, maximum: 1}
+        weight: {type: number, minimum: 0, maximum: 1}
+        explanation: {type: string}
+    VerificationSummary:
+      type: object
+      additionalProperties: false
+      required: [status, checks_passed, checks_failed, reproducible, output_hash]
+      properties:
+        status: {type: string, enum: [passed, partial, failed, not_run]}
+        checks_passed: {type: integer, minimum: 0}
+        checks_failed: {type: integer, minimum: 0}
+        reproducible: {type: boolean}
+        output_hash: {type: [string, 'null'], pattern: '^[a-f0-9]{64}$'}
+    EvidencePackage:
+      type: object
+      additionalProperties: false
+      required: [analysis_id, created_at, plan, code_artifacts, claims, checks, execution]
+      properties:
+        analysis_id: {type: string, format: uuid}
+        created_at: {type: string, format: date-time}
+        plan: {$ref: '#/components/schemas/AnalysisPlan'}
+        code_artifacts: {type: array, items: {$ref: '#/components/schemas/CodeArtifact'}}
+        claims: {type: array, items: {$ref: '#/components/schemas/EvidenceClaim'}}
+        checks: {type: array, items: {$ref: '#/components/schemas/VerificationCheck'}}
+        execution: {$ref: '#/components/schemas/ExecutionRecord'}
+    AnalysisPlan:
+      type: object
+      additionalProperties: false
+      required: [summary, tables, joins, filters, cleaning_steps, calculations, outputs, assumptions]
+      properties:
+        summary: {type: string}
+        tables: {type: array, items: {type: string}}
+        joins: {type: array, items: {type: string}}
+        filters: {type: array, items: {type: string}}
+        cleaning_steps: {type: array, items: {type: string}}
+        calculations: {type: array, items: {type: string}}
+        outputs: {type: array, items: {type: string}}
+        assumptions: {type: array, items: {$ref: '#/components/schemas/Assumption'}}
+    CodeArtifact:
+      type: object
+      additionalProperties: false
+      required: [id, language, source, sha256, entry_point, safety_status]
+      properties:
+        id: {type: string}
+        language: {type: string, enum: [sql, python]}
+        source: {type: string}
+        sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+        entry_point: {type: string}
+        safety_status: {type: string, enum: [passed, failed]}
+    EvidenceClaim:
+      type: object
+      additionalProperties: false
+      required: [id, statement, value, source_locators, code_artifact_id]
+      properties:
+        id: {type: string}
+        statement: {type: string}
+        value: {}
+        source_locators: {type: array, items: {$ref: '#/components/schemas/SourceLocator'}}
+        code_artifact_id: {type: string}
+    SourceLocator:
+      type: object
+      additionalProperties: false
+      required: [file_id, file_sha256, table_id, columns, locator_type, locator]
+      properties:
+        file_id: {type: string, format: uuid}
+        file_sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+        table_id: {type: string}
+        columns: {type: array, items: {type: string}}
+        locator_type: {type: string, enum: [row_ids, row_range, aggregate_query]}
+        locator: {type: string}
+    VerificationCheck:
+      type: object
+      additionalProperties: false
+      required: [id, type, name, status, expected, actual, explanation]
+      properties:
+        id: {type: string}
+        type: {type: string, enum: [mechanical, independent_calculation, clean_rerun, units_filters, skeptic]}
+        name: {type: string}
+        status: {type: string, enum: [passed, failed, skipped]}
+        expected: {type: [string, 'null']}
+        actual: {type: [string, 'null']}
+        explanation: {type: string}
+    ExecutionRecord:
+      type: object
+      additionalProperties: false
+      required: [attempt_count, duration_ms, cpu_time_ms, peak_memory_bytes, network_enabled, inputs_read_only, output_hash]
+      properties:
+        attempt_count: {type: integer, minimum: 1, maximum: 3}
+        duration_ms: {type: integer, minimum: 0}
+        cpu_time_ms: {type: integer, minimum: 0}
+        peak_memory_bytes: {type: integer, minimum: 0}
+        network_enabled: {const: false}
+        inputs_read_only: {const: true}
+        output_hash: {type: string, pattern: '^[a-f0-9]{64}$'}
+    ErrorEnvelope:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message, request_id, retryable, details]
+          properties:
+            code: {type: string}
+            message: {type: string}
+            request_id: {type: string}
+            retryable: {type: boolean}
+            details: {type: object, additionalProperties: true}
+
+    RecoveryAnswer:
+      type: object
+      additionalProperties: false
+      required: [rate, rate_source]
+      properties:
+        rate: {type: number, exclusiveMinimum: 0, maximum: 1000000}
+        rate_source: {type: string, minLength: 3, maxLength: 200}
+    AnswerRecovery:
+      type: object
+      additionalProperties: false
+      required: [requirements, parameters, code_template, resume_url, ready_to_run]
+      properties:
+        requirements: {type: array, items: {type: string}}
+        parameters: {type: array, items: {type: object, additionalProperties: false, required: [name, label, unit], properties: {name: {type: string}, label: {type: string}, unit: {type: string}}}}
+        code_template: {type: [string, 'null']}
+        resume_url: {type: [string, 'null']}
+        ready_to_run: {type: boolean}
+        source_currency: {type: string, enum: [USD, EUR, GBP, INR]}
+        target_currency: {type: string, enum: [USD, EUR, GBP, INR]}
+        query: {type: object, additionalProperties: true}
+    AnswerReview:
+      type: object
+      additionalProperties: false
+      required: [two_analyst, skeptic, sensitivity, unknown_impacts, heatmap]
+      properties:
+        two_analyst: {type: object, additionalProperties: true}
+        skeptic: {type: object, additionalProperties: true}
+        sensitivity: {type: array, items: {type: object, additionalProperties: true}}
+        unknown_impacts: {type: array, items: {type: string}}
+        heatmap: {type: array, items: {type: object, additionalProperties: false, required: [component, status, explanation], properties: {component: {type: string}, status: {type: string, enum: [green, yellow, orange, red]}, explanation: {type: string}}}}

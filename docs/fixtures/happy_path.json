@@ -1,0 +1,394 @@
+{
+  "dataset": {
+    "created_at": "2026-10-06T23:19:00.010746Z",
+    "expires_at": "2026-10-07T23:19:00.010746Z",
+    "files": [
+      {
+        "filename": "sales.csv",
+        "id": "d77d68ea-65bd-46ec-8085-14fd5f9aa237",
+        "media_type": "text/csv",
+        "sha256": "905ab3d25c57045d8dce5d7087805e8ee7d366319728c1abe28e632dbd02b634",
+        "size_bytes": 37
+      },
+      {
+        "filename": "reference.csv",
+        "id": "c1879577-4146-418d-871d-28c5b85c15c1",
+        "media_type": "text/csv",
+        "sha256": "5fee0fbc47ec1cadd00b7c061ec5c8ea49c8df4ad3b04668c877b7f519ad4218",
+        "size_bytes": 21
+      }
+    ],
+    "id": "b2b1e41c-d058-4133-a374-abf331d07986",
+    "name": "Untitled dataset",
+    "status": "ready",
+    "table_count": 2,
+    "warnings": []
+  },
+  "profile": {
+    "dataset_id": "b2b1e41c-d058-4133-a374-abf331d07986",
+    "generated_at": "2026-10-06T23:19:00.123552Z",
+    "join_candidates": [],
+    "tables": [
+      {
+        "column_count": 2,
+        "columns": [
+          {
+            "candidate_key": false,
+            "distinct_count": 2,
+            "inferred_type": "string",
+            "max": null,
+            "min": null,
+            "name": "region",
+            "null_count": 0,
+            "nullable": false,
+            "sample_values": [
+              "West",
+              "East"
+            ],
+            "warnings": []
+          },
+          {
+            "candidate_key": true,
+            "distinct_count": 3,
+            "inferred_type": "integer",
+            "max": 20,
+            "min": 5,
+            "name": "amount",
+            "null_count": 0,
+            "nullable": false,
+            "sample_values": [
+              10,
+              20,
+              5
+            ],
+            "warnings": []
+          }
+        ],
+        "duplicate_row_count": 0,
+        "file_id": "d77d68ea-65bd-46ec-8085-14fd5f9aa237",
+        "id": "t_d77d68ea65bd46ec808514fd5f9aa237_0",
+        "name": "sales",
+        "row_count": 3,
+        "sample_rows": [
+          {
+            "amount": 10,
+            "region": "West"
+          },
+          {
+            "amount": 20,
+            "region": "West"
+          },
+          {
+            "amount": 5,
+            "region": "East"
+          }
+        ],
+        "sheet_name": null
+      },
+      {
+        "column_count": 2,
+        "columns": [
+          {
+            "candidate_key": true,
+            "distinct_count": 1,
+            "inferred_type": "integer",
+            "max": 1,
+            "min": 1,
+            "name": "id",
+            "null_count": 0,
+            "nullable": false,
+            "sample_values": [
+              1
+            ],
+            "warnings": []
+          },
+          {
+            "candidate_key": true,
+            "distinct_count": 1,
+            "inferred_type": "string",
+            "max": null,
+            "min": null,
+            "name": "label",
+            "null_count": 0,
+            "nullable": false,
+            "sample_values": [
+              "reference"
+            ],
+            "warnings": []
+          }
+        ],
+        "duplicate_row_count": 0,
+        "file_id": "c1879577-4146-418d-871d-28c5b85c15c1",
+        "id": "t_c18795774146418d871d28c5b85c15c1_1",
+        "name": "reference",
+        "row_count": 1,
+        "sample_rows": [
+          {
+            "id": 1,
+            "label": "reference"
+          }
+        ],
+        "sheet_name": null
+      }
+    ],
+    "warnings": []
+  },
+  "analysis": {
+    "clarification": null,
+    "created_at": "2026-10-06T23:19:00.198498Z",
+    "dataset_id": "b2b1e41c-d058-4133-a374-abf331d07986",
+    "failure": null,
+    "id": "73eda56d-4d1e-4f07-ba67-4d9e7813839e",
+    "outcome": "answered",
+    "parent_analysis_id": null,
+    "stage": {
+      "code": "completed",
+      "label": "Completed",
+      "progress_percent": 100
+    },
+    "status": "completed",
+    "updated_at": "2026-10-06T23:19:00.440869Z"
+  },
+  "result": {
+    "analysis_id": "73eda56d-4d1e-4f07-ba67-4d9e7813839e",
+    "assumptions": [],
+    "charts": [
+      {
+        "data": [
+          {
+            "group_value": "East",
+            "value": 5
+          },
+          {
+            "group_value": "West",
+            "value": 30
+          }
+        ],
+        "evidence_refs": [
+          "claim_1"
+        ],
+        "id": "chart_1",
+        "title": "Calculate sum of amount by region",
+        "type": "bar",
+        "x_key": "group_value",
+        "y_keys": [
+          "value"
+        ]
+      }
+    ],
+    "confidence": {
+      "band": "high",
+      "factors": [
+        {
+          "explanation": "Exact supported request grammar and explicit table selection.",
+          "name": "ambiguity",
+          "score": 1,
+          "weight": 0.25
+        },
+        {
+          "explanation": "Penalty for null cells, duplicate rows and warnings in source tables.",
+          "name": "data_quality",
+          "score": 1.0,
+          "weight": 0.2
+        },
+        {
+          "explanation": "Allowlisted SQL executed in the isolated worker.",
+          "name": "execution",
+          "score": 1,
+          "weight": 0.15
+        },
+        {
+          "explanation": "Independent Decimal recalculation matched.",
+          "name": "verification",
+          "score": 1,
+          "weight": 0.25
+        },
+        {
+          "explanation": "Compared canonical output hashes from two fresh containers.",
+          "name": "reproducibility",
+          "score": 1,
+          "weight": 0.15
+        }
+      ],
+      "score": 1.0,
+      "summary": "Confidence reflects recorded ambiguity, quality and verification checks.",
+      "version": "confidence-v1"
+    },
+    "evidence_url": "/api/v1/analyses/73eda56d-4d1e-4f07-ba67-4d9e7813839e/evidence",
+    "headline": "Calculated 2 groups.",
+    "metrics": [
+      {
+        "evidence_refs": [
+          "claim_group_count"
+        ],
+        "formatted_value": "2",
+        "id": "group_count",
+        "label": "Groups returned",
+        "unit": "groups",
+        "value": 2
+      }
+    ],
+    "narrative": "Calculate sum of amount by region. See the evidence for the exact filters, source hashes and null handling.",
+    "outcome": "answered",
+    "tables": [
+      {
+        "columns": [
+          {
+            "key": "group_value",
+            "label": "region",
+            "type": "string"
+          },
+          {
+            "key": "value",
+            "label": "sum(amount)",
+            "type": "number"
+          }
+        ],
+        "evidence_refs": [
+          "claim_1"
+        ],
+        "id": "table_1",
+        "rows": [
+          {
+            "group_value": "East",
+            "value": 5
+          },
+          {
+            "group_value": "West",
+            "value": 30
+          }
+        ],
+        "title": "Calculate sum of amount by region",
+        "total_rows": 2,
+        "truncated": false
+      }
+    ],
+    "verification": {
+      "checks_failed": 0,
+      "checks_passed": 3,
+      "output_hash": "3e65868df1875da6f459d7fec0b6e0a7e71b3e9dfde86e5c2782846f434a92e0",
+      "reproducible": true,
+      "status": "passed"
+    },
+    "warnings": []
+  },
+  "evidence": {
+    "analysis_id": "73eda56d-4d1e-4f07-ba67-4d9e7813839e",
+    "checks": [
+      {
+        "actual": "Matched",
+        "expected": "Approved compiled query and valid result hash",
+        "explanation": "Deterministic check; independent of answer prose.",
+        "id": "attempt_1_mechanical",
+        "name": "Approved SQL and canonical hash",
+        "status": "passed",
+        "type": "mechanical"
+      },
+      {
+        "actual": "Matched",
+        "expected": "Every group matches within rel=1e-10, abs=1e-9",
+        "explanation": "Deterministic check; independent of answer prose.",
+        "id": "attempt_1_independent_calculation",
+        "name": "Independent Decimal recalculation",
+        "status": "passed",
+        "type": "independent_calculation"
+      },
+      {
+        "actual": "3e65868df1875da6f459d7fec0b6e0a7e71b3e9dfde86e5c2782846f434a92e0",
+        "expected": "3e65868df1875da6f459d7fec0b6e0a7e71b3e9dfde86e5c2782846f434a92e0",
+        "explanation": "Deterministic check; independent of answer prose.",
+        "id": "attempt_1_clean_rerun",
+        "name": "Fresh isolated rerun",
+        "status": "passed",
+        "type": "clean_rerun"
+      }
+    ],
+    "claims": [
+      {
+        "code_artifact_id": "sql_1",
+        "id": "claim_1",
+        "source_locators": [
+          {
+            "columns": [
+              "region",
+              "amount"
+            ],
+            "file_id": "d77d68ea-65bd-46ec-8085-14fd5f9aa237",
+            "file_sha256": "905ab3d25c57045d8dce5d7087805e8ee7d366319728c1abe28e632dbd02b634",
+            "locator": "SELECT b.\"region\" AS group_value, SUM(b.\"amount\") AS value FROM \"t_d77d68ea65bd46ec808514fd5f9aa237_0\" AS b GROUP BY b.\"region\" LIMIT 501",
+            "locator_type": "aggregate_query",
+            "table_id": "t_d77d68ea65bd46ec808514fd5f9aa237_0"
+          }
+        ],
+        "statement": "Calculate sum of amount by region",
+        "value": [
+          {
+            "group_value": "East",
+            "value": 5
+          },
+          {
+            "group_value": "West",
+            "value": 30
+          }
+        ]
+      },
+      {
+        "code_artifact_id": "sql_1",
+        "id": "claim_group_count",
+        "source_locators": [
+          {
+            "columns": [
+              "region",
+              "amount"
+            ],
+            "file_id": "d77d68ea-65bd-46ec-8085-14fd5f9aa237",
+            "file_sha256": "905ab3d25c57045d8dce5d7087805e8ee7d366319728c1abe28e632dbd02b634",
+            "locator": "SELECT b.\"region\" AS group_value, SUM(b.\"amount\") AS value FROM \"t_d77d68ea65bd46ec808514fd5f9aa237_0\" AS b GROUP BY b.\"region\" LIMIT 501",
+            "locator_type": "aggregate_query",
+            "table_id": "t_d77d68ea65bd46ec808514fd5f9aa237_0"
+          }
+        ],
+        "statement": "Number of groups in the verified aggregate",
+        "value": 2
+      }
+    ],
+    "code_artifacts": [
+      {
+        "entry_point": "query.sql",
+        "id": "sql_1",
+        "language": "sql",
+        "safety_status": "passed",
+        "sha256": "ba063b45d57ad4d03c7e814c3b0697ada635611dede020888f1d04bf4a054582",
+        "source": "SELECT b.\"region\" AS group_value, SUM(b.\"amount\") AS value FROM \"t_d77d68ea65bd46ec808514fd5f9aa237_0\" AS b GROUP BY b.\"region\" LIMIT 501"
+      }
+    ],
+    "created_at": "2026-10-06T23:19:00.412225Z",
+    "execution": {
+      "attempt_count": 1,
+      "cpu_time_ms": 2,
+      "duration_ms": 2,
+      "inputs_read_only": true,
+      "network_enabled": false,
+      "output_hash": "3e65868df1875da6f459d7fec0b6e0a7e71b3e9dfde86e5c2782846f434a92e0",
+      "peak_memory_bytes": 1024
+    },
+    "plan": {
+      "assumptions": [],
+      "calculations": [
+        "sum(amount)"
+      ],
+      "cleaning_steps": [
+        "Original values retained. Missing cells become null. Numeric aggregates exclude nulls; duplicate rows are retained."
+      ],
+      "filters": [],
+      "joins": [],
+      "outputs": [
+        "grouped calculations"
+      ],
+      "summary": "Calculate sum of amount by region",
+      "tables": [
+        "t_d77d68ea65bd46ec808514fd5f9aa237_0"
+      ]
+    }
+  }
+}

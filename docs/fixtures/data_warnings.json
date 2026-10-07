@@ -1,0 +1,504 @@
+{
+  "dataset": {
+    "created_at": "2026-10-06T23:19:00.819179Z",
+    "expires_at": "2026-10-07T23:19:00.819179Z",
+    "files": [
+      {
+        "filename": "sales.csv",
+        "id": "b0822ffc-a96b-4929-aec0-002c7b9ef7be",
+        "media_type": "text/csv",
+        "sha256": "001470457aaef63c95419cf2c00df143f7322b784846c49f20daa5f972a65636",
+        "size_bytes": 174
+      }
+    ],
+    "id": "3eaa0c4a-a624-4fd0-97e9-cc8366529950",
+    "name": "Untitled dataset",
+    "status": "ready",
+    "table_count": 1,
+    "warnings": [
+      {
+        "code": "NULL_VALUES",
+        "column": "amount",
+        "message": "13 values are missing; aggregate functions exclude missing values.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "AMBIGUOUS_DATES",
+        "column": "date",
+        "message": "Date order is ambiguous; values were preserved as text.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "NULL_VALUES",
+        "column": "date",
+        "message": "12 values are missing; aggregate functions exclude missing values.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "CURRENCY_TEXT",
+        "column": "currency",
+        "message": "Currency values remain text; confirm currency and conversion before calculation.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "NULL_VALUES",
+        "column": "currency",
+        "message": "12 values are missing; aggregate functions exclude missing values.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "DUPLICATE_ROWS",
+        "message": "11 duplicate rows are retained.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      }
+    ]
+  },
+  "profile": {
+    "dataset_id": "3eaa0c4a-a624-4fd0-97e9-cc8366529950",
+    "generated_at": "2026-10-06T23:19:00.871564Z",
+    "join_candidates": [],
+    "tables": [
+      {
+        "column_count": 4,
+        "columns": [
+          {
+            "candidate_key": false,
+            "distinct_count": 1,
+            "inferred_type": "string",
+            "max": null,
+            "min": null,
+            "name": "region",
+            "null_count": 0,
+            "nullable": false,
+            "sample_values": [
+              "West"
+            ],
+            "warnings": []
+          },
+          {
+            "candidate_key": false,
+            "distinct_count": 1,
+            "inferred_type": "integer",
+            "max": 10,
+            "min": 10,
+            "name": "amount",
+            "null_count": 13,
+            "nullable": true,
+            "sample_values": [
+              10
+            ],
+            "warnings": [
+              {
+                "code": "NULL_VALUES",
+                "column": "amount",
+                "message": "13 values are missing; aggregate functions exclude missing values.",
+                "severity": "warning",
+                "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+              }
+            ]
+          },
+          {
+            "candidate_key": false,
+            "distinct_count": 2,
+            "inferred_type": "string",
+            "max": null,
+            "min": null,
+            "name": "date",
+            "null_count": 12,
+            "nullable": true,
+            "sample_values": [
+              "01/02/2025",
+              "02/03/2025"
+            ],
+            "warnings": [
+              {
+                "code": "AMBIGUOUS_DATES",
+                "column": "date",
+                "message": "Date order is ambiguous; values were preserved as text.",
+                "severity": "warning",
+                "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+              },
+              {
+                "code": "NULL_VALUES",
+                "column": "date",
+                "message": "12 values are missing; aggregate functions exclude missing values.",
+                "severity": "warning",
+                "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+              }
+            ]
+          },
+          {
+            "candidate_key": false,
+            "distinct_count": 2,
+            "inferred_type": "string",
+            "max": null,
+            "min": null,
+            "name": "currency",
+            "null_count": 12,
+            "nullable": true,
+            "sample_values": [
+              "USD 10",
+              "EUR 10"
+            ],
+            "warnings": [
+              {
+                "code": "CURRENCY_TEXT",
+                "column": "currency",
+                "message": "Currency values remain text; confirm currency and conversion before calculation.",
+                "severity": "warning",
+                "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+              },
+              {
+                "code": "NULL_VALUES",
+                "column": "currency",
+                "message": "12 values are missing; aggregate functions exclude missing values.",
+                "severity": "warning",
+                "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+              }
+            ]
+          }
+        ],
+        "duplicate_row_count": 11,
+        "file_id": "b0822ffc-a96b-4929-aec0-002c7b9ef7be",
+        "id": "t_b0822ffca96b4929aec0002c7b9ef7be_0",
+        "name": "sales",
+        "row_count": 14,
+        "sample_rows": [
+          {
+            "amount": 10,
+            "currency": "USD 10",
+            "date": "01/02/2025",
+            "region": "West"
+          },
+          {
+            "amount": null,
+            "currency": "EUR 10",
+            "date": "02/03/2025",
+            "region": "West"
+          },
+          {
+            "amount": null,
+            "currency": null,
+            "date": null,
+            "region": "West"
+          },
+          {
+            "amount": null,
+            "currency": null,
+            "date": null,
+            "region": "West"
+          },
+          {
+            "amount": null,
+            "currency": null,
+            "date": null,
+            "region": "West"
+          },
+          {
+            "amount": null,
+            "currency": null,
+            "date": null,
+            "region": "West"
+          },
+          {
+            "amount": null,
+            "currency": null,
+            "date": null,
+            "region": "West"
+          },
+          {
+            "amount": null,
+            "currency": null,
+            "date": null,
+            "region": "West"
+          },
+          {
+            "amount": null,
+            "currency": null,
+            "date": null,
+            "region": "West"
+          },
+          {
+            "amount": null,
+            "currency": null,
+            "date": null,
+            "region": "West"
+          }
+        ],
+        "sheet_name": null
+      }
+    ],
+    "warnings": [
+      {
+        "code": "NULL_VALUES",
+        "column": "amount",
+        "message": "13 values are missing; aggregate functions exclude missing values.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "AMBIGUOUS_DATES",
+        "column": "date",
+        "message": "Date order is ambiguous; values were preserved as text.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "NULL_VALUES",
+        "column": "date",
+        "message": "12 values are missing; aggregate functions exclude missing values.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "CURRENCY_TEXT",
+        "column": "currency",
+        "message": "Currency values remain text; confirm currency and conversion before calculation.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "NULL_VALUES",
+        "column": "currency",
+        "message": "12 values are missing; aggregate functions exclude missing values.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "DUPLICATE_ROWS",
+        "message": "11 duplicate rows are retained.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      }
+    ]
+  },
+  "analysis": {
+    "clarification": null,
+    "created_at": "2026-10-06T23:19:00.954641Z",
+    "dataset_id": "3eaa0c4a-a624-4fd0-97e9-cc8366529950",
+    "failure": null,
+    "id": "406a4711-81b0-4bde-b284-05b747ebfa18",
+    "outcome": "answered",
+    "parent_analysis_id": null,
+    "stage": {
+      "code": "completed",
+      "label": "Completed",
+      "progress_percent": 100
+    },
+    "status": "completed",
+    "updated_at": "2026-10-06T23:19:01.461371Z"
+  },
+  "result": {
+    "analysis_id": "406a4711-81b0-4bde-b284-05b747ebfa18",
+    "assumptions": [],
+    "charts": [],
+    "confidence": {
+      "band": "medium",
+      "factors": [
+        {
+          "explanation": "Exact supported request grammar and explicit table selection.",
+          "name": "ambiguity",
+          "score": 1,
+          "weight": 0.25
+        },
+        {
+          "explanation": "Penalty for null cells, duplicate rows and warnings in source tables.",
+          "name": "data_quality",
+          "score": 0,
+          "weight": 0.2
+        },
+        {
+          "explanation": "Allowlisted SQL executed in the isolated worker.",
+          "name": "execution",
+          "score": 1,
+          "weight": 0.15
+        },
+        {
+          "explanation": "Independent Decimal recalculation matched.",
+          "name": "verification",
+          "score": 1,
+          "weight": 0.25
+        },
+        {
+          "explanation": "Compared canonical output hashes from two fresh containers.",
+          "name": "reproducibility",
+          "score": 1,
+          "weight": 0.15
+        }
+      ],
+      "score": 0.8,
+      "summary": "Confidence reflects recorded ambiguity, quality and verification checks.",
+      "version": "confidence-v1"
+    },
+    "evidence_url": "/api/v1/analyses/406a4711-81b0-4bde-b284-05b747ebfa18/evidence",
+    "headline": "Calculate sum of amount: 10.",
+    "metrics": [
+      {
+        "evidence_refs": [
+          "claim_1"
+        ],
+        "formatted_value": "10",
+        "id": "metric_value",
+        "label": "sum(amount)",
+        "unit": null,
+        "value": 10
+      }
+    ],
+    "narrative": "Calculate sum of amount. See the evidence for the exact filters, source hashes and null handling.",
+    "outcome": "answered",
+    "tables": [],
+    "verification": {
+      "checks_failed": 0,
+      "checks_passed": 3,
+      "output_hash": "570501266971d14b4b12643b87a2f51b6762a8af0ffa76e40337c1d78a9e051c",
+      "reproducible": true,
+      "status": "passed"
+    },
+    "warnings": [
+      {
+        "code": "NULL_VALUES",
+        "column": "amount",
+        "message": "13 values are missing; aggregate functions exclude missing values.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "AMBIGUOUS_DATES",
+        "column": "date",
+        "message": "Date order is ambiguous; values were preserved as text.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "NULL_VALUES",
+        "column": "date",
+        "message": "12 values are missing; aggregate functions exclude missing values.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "CURRENCY_TEXT",
+        "column": "currency",
+        "message": "Currency values remain text; confirm currency and conversion before calculation.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "NULL_VALUES",
+        "column": "currency",
+        "message": "12 values are missing; aggregate functions exclude missing values.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      },
+      {
+        "code": "DUPLICATE_ROWS",
+        "message": "11 duplicate rows are retained.",
+        "severity": "warning",
+        "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      }
+    ]
+  },
+  "evidence": {
+    "analysis_id": "406a4711-81b0-4bde-b284-05b747ebfa18",
+    "checks": [
+      {
+        "actual": "Matched",
+        "expected": "Approved compiled query and valid result hash",
+        "explanation": "Deterministic check; independent of answer prose.",
+        "id": "attempt_1_mechanical",
+        "name": "Approved SQL and canonical hash",
+        "status": "passed",
+        "type": "mechanical"
+      },
+      {
+        "actual": "Matched",
+        "expected": "Every group matches within rel=1e-10, abs=1e-9",
+        "explanation": "Deterministic check; independent of answer prose.",
+        "id": "attempt_1_independent_calculation",
+        "name": "Independent Decimal recalculation",
+        "status": "passed",
+        "type": "independent_calculation"
+      },
+      {
+        "actual": "570501266971d14b4b12643b87a2f51b6762a8af0ffa76e40337c1d78a9e051c",
+        "expected": "570501266971d14b4b12643b87a2f51b6762a8af0ffa76e40337c1d78a9e051c",
+        "explanation": "Deterministic check; independent of answer prose.",
+        "id": "attempt_1_clean_rerun",
+        "name": "Fresh isolated rerun",
+        "status": "passed",
+        "type": "clean_rerun"
+      }
+    ],
+    "claims": [
+      {
+        "code_artifact_id": "sql_1",
+        "id": "claim_1",
+        "source_locators": [
+          {
+            "columns": [
+              "region",
+              "amount",
+              "date",
+              "currency"
+            ],
+            "file_id": "b0822ffc-a96b-4929-aec0-002c7b9ef7be",
+            "file_sha256": "001470457aaef63c95419cf2c00df143f7322b784846c49f20daa5f972a65636",
+            "locator": "SELECT SUM(b.\"amount\") AS value FROM \"t_b0822ffca96b4929aec0002c7b9ef7be_0\" AS b LIMIT 501",
+            "locator_type": "aggregate_query",
+            "table_id": "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+          }
+        ],
+        "statement": "Calculate sum of amount",
+        "value": [
+          {
+            "value": 10
+          }
+        ]
+      }
+    ],
+    "code_artifacts": [
+      {
+        "entry_point": "query.sql",
+        "id": "sql_1",
+        "language": "sql",
+        "safety_status": "passed",
+        "sha256": "0c58cedf6972dc83199e1a73ca8ee43d30dc172848cdb8cf1a589070b7a751b4",
+        "source": "SELECT SUM(b.\"amount\") AS value FROM \"t_b0822ffca96b4929aec0002c7b9ef7be_0\" AS b LIMIT 501"
+      }
+    ],
+    "created_at": "2026-10-06T23:19:01.392196Z",
+    "execution": {
+      "attempt_count": 1,
+      "cpu_time_ms": 2,
+      "duration_ms": 2,
+      "inputs_read_only": true,
+      "network_enabled": false,
+      "output_hash": "570501266971d14b4b12643b87a2f51b6762a8af0ffa76e40337c1d78a9e051c",
+      "peak_memory_bytes": 1024
+    },
+    "plan": {
+      "assumptions": [],
+      "calculations": [
+        "sum(amount)"
+      ],
+      "cleaning_steps": [
+        "Original values retained. Missing cells become null. Numeric aggregates exclude nulls; duplicate rows are retained."
+      ],
+      "filters": [],
+      "joins": [],
+      "outputs": [
+        "scalar calculations"
+      ],
+      "summary": "Calculate sum of amount",
+      "tables": [
+        "t_b0822ffca96b4929aec0002c7b9ef7be_0"
+      ]
+    }
+  }
+}

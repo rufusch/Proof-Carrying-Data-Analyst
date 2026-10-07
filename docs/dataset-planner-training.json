@@ -1,0 +1,282 @@
+{
+  "source_sha256": "963e67ce18a3e2304138d9627772e03936ba21448113cb9f9352ac07d38b5b3f",
+  "columns": [
+    "Quarter",
+    "Revenue",
+    "Gross Profit",
+    "Debt/Equity Ratio",
+    "EPS",
+    "Total Assets",
+    "Total Liabilities",
+    "Share Price",
+    "PE Ratio",
+    "ROE",
+    "ROI",
+    "Net Income",
+    "Current Ratio",
+    "Gross Margin"
+  ],
+  "examples": [
+    {
+      "intent": "sum",
+      "text": "total Revenue"
+    },
+    {
+      "intent": "sum",
+      "text": "what is the total Revenue"
+    },
+    {
+      "intent": "mean",
+      "text": "average Revenue"
+    },
+    {
+      "intent": "mean",
+      "text": "what is the average Revenue"
+    },
+    {
+      "intent": "min",
+      "text": "minimum Revenue"
+    },
+    {
+      "intent": "min",
+      "text": "what is the minimum Revenue"
+    },
+    {
+      "intent": "max",
+      "text": "maximum Revenue"
+    },
+    {
+      "intent": "max",
+      "text": "what is the maximum Revenue"
+    },
+    {
+      "intent": "count",
+      "text": "count Revenue"
+    },
+    {
+      "intent": "count",
+      "text": "what is the count Revenue"
+    },
+    {
+      "intent": "sum",
+      "text": "total Gross Profit"
+    },
+    {
+      "intent": "sum",
+      "text": "what is the total Gross Profit"
+    },
+    {
+      "intent": "mean",
+      "text": "average Gross Profit"
+    },
+    {
+      "intent": "mean",
+      "text": "what is the average Gross Profit"
+    },
+    {
+      "intent": "min",
+      "text": "minimum Gross Profit"
+    },
+    {
+      "intent": "min",
+      "text": "what is the minimum Gross Profit"
+    },
+    {
+      "intent": "max",
+      "text": "maximum Gross Profit"
+    },
+    {
+      "intent": "max",
+      "text": "what is the maximum Gross Profit"
+    },
+    {
+      "intent": "count",
+      "text": "count Gross Profit"
+    },
+    {
+      "intent": "count",
+      "text": "what is the count Gross Profit"
+    },
+    {
+      "intent": "sum",
+      "text": "total Total Assets"
+    },
+    {
+      "intent": "sum",
+      "text": "what is the total Total Assets"
+    },
+    {
+      "intent": "mean",
+      "text": "average Total Assets"
+    },
+    {
+      "intent": "mean",
+      "text": "what is the average Total Assets"
+    },
+    {
+      "intent": "min",
+      "text": "minimum Total Assets"
+    },
+    {
+      "intent": "min",
+      "text": "what is the minimum Total Assets"
+    },
+    {
+      "intent": "max",
+      "text": "maximum Total Assets"
+    },
+    {
+      "intent": "max",
+      "text": "what is the maximum Total Assets"
+    },
+    {
+      "intent": "count",
+      "text": "count Total Assets"
+    },
+    {
+      "intent": "count",
+      "text": "what is the count Total Assets"
+    },
+    {
+      "intent": "sum",
+      "text": "total Total Liabilities"
+    },
+    {
+      "intent": "sum",
+      "text": "what is the total Total Liabilities"
+    },
+    {
+      "intent": "mean",
+      "text": "average Total Liabilities"
+    },
+    {
+      "intent": "mean",
+      "text": "what is the average Total Liabilities"
+    },
+    {
+      "intent": "min",
+      "text": "minimum Total Liabilities"
+    },
+    {
+      "intent": "min",
+      "text": "what is the minimum Total Liabilities"
+    },
+    {
+      "intent": "max",
+      "text": "maximum Total Liabilities"
+    },
+    {
+      "intent": "max",
+      "text": "what is the maximum Total Liabilities"
+    },
+    {
+      "intent": "count",
+      "text": "count Total Liabilities"
+    },
+    {
+      "intent": "count",
+      "text": "what is the count Total Liabilities"
+    },
+    {
+      "intent": "sum",
+      "text": "total Share Price"
+    },
+    {
+      "intent": "sum",
+      "text": "what is the total Share Price"
+    },
+    {
+      "intent": "mean",
+      "text": "average Share Price"
+    },
+    {
+      "intent": "mean",
+      "text": "what is the average Share Price"
+    },
+    {
+      "intent": "min",
+      "text": "minimum Share Price"
+    },
+    {
+      "intent": "min",
+      "text": "what is the minimum Share Price"
+    },
+    {
+      "intent": "max",
+      "text": "maximum Share Price"
+    },
+    {
+      "intent": "max",
+      "text": "what is the maximum Share Price"
+    },
+    {
+      "intent": "count",
+      "text": "count Share Price"
+    },
+    {
+      "intent": "count",
+      "text": "what is the count Share Price"
+    },
+    {
+      "intent": "sum",
+      "text": "total Net Income"
+    },
+    {
+      "intent": "sum",
+      "text": "what is the total Net Income"
+    },
+    {
+      "intent": "mean",
+      "text": "average Net Income"
+    },
+    {
+      "intent": "mean",
+      "text": "what is the average Net Income"
+    },
+    {
+      "intent": "min",
+      "text": "minimum Net Income"
+    },
+    {
+      "intent": "min",
+      "text": "what is the minimum Net Income"
+    },
+    {
+      "intent": "max",
+      "text": "maximum Net Income"
+    },
+    {
+      "intent": "max",
+      "text": "what is the maximum Net Income"
+    },
+    {
+      "intent": "count",
+      "text": "count Net Income"
+    },
+    {
+      "intent": "count",
+      "text": "what is the count Net Income"
+    },
+    {
+      "intent": "sum",
+      "text": "what is the revenue made"
+    },
+    {
+      "intent": "sum",
+      "text": "what is the revenue"
+    },
+    {
+      "intent": "sum",
+      "text": "show revenue"
+    },
+    {
+      "intent": "sum",
+      "text": "what is the total revenue"
+    },
+    {
+      "intent": "sum",
+      "text": "how much revenue did Tesla make"
+    }
+  ],
+  "scope": "Authorized schema-based intent adaptation. Cell values and calculated answers are not memorized or included in training."
+}

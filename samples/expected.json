@@ -1,0 +1,21 @@
+{
+  "total_amount": 5000,
+  "total_units": 50,
+  "total_profit": 1000,
+  "profit_percentage": 20,
+  "amount_per_unit": 100,
+  "growth_by_region": {
+    "West": {
+      "baseline": 1500,
+      "current": 2100,
+      "change": 600,
+      "value": 40
+    },
+    "East": {
+      "baseline": 800,
+      "current": 600,
+      "change": -200,
+      "value": -25
+    }
+  }
+}

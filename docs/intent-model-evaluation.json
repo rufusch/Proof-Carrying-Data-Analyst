@@ -1,0 +1,8 @@
+{
+  "training_examples": 233,
+  "held_out_examples": 40,
+  "correct": 40,
+  "failures": [],
+  "training_sha256": "fc38439024f07bf58480daa8c6f1fb51d9cf96c754f6b0067f5f1e08c3557107",
+  "scope": "Synthetic English aggregate-intent paraphrases; not a general language model benchmark."
+}
