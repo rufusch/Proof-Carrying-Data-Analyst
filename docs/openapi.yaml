@@ -679,8 +679,8 @@ components:
         duration_ms: {type: integer, minimum: 0}
         cpu_time_ms: {type: integer, minimum: 0}
         peak_memory_bytes: {type: integer, minimum: 0}
-        network_enabled: {const: false}
-        inputs_read_only: {const: true}
+        network_enabled: {type: boolean, description: 'False for Docker isolation; true for the explicit Streamlit library runtime.'}
+        inputs_read_only: {type: boolean, description: 'True for Docker read-only mounts; false for the Streamlit library runtime.'}
         output_hash: {type: string, pattern: '^[a-f0-9]{64}$'}
     ErrorEnvelope:
       type: object

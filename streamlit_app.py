@@ -19,22 +19,33 @@ try:
     configured = st.secrets.get("SURECOUNT_API_URL", "")
 except (FileNotFoundError, st.errors.StreamlitSecretNotFoundError):
     configured = ""
-base = (configured or os.getenv("SURECOUNT_API_URL", "http://127.0.0.1:8010")).rstrip("/")
-if not base.endswith("/api/v1"):
+base = (configured or os.getenv("SURECOUNT_API_URL", "")).rstrip("/")
+if base and not base.endswith("/api/v1"):
     base += "/api/v1"
 if st.session_state.get("backend") != base:
     st.session_state.clear()
     st.session_state.backend = base
 
 
+@st.cache_resource
+def embedded_backend():
+    from backend.streamlit_runtime import EmbeddedBackend
+    return EmbeddedBackend()
+
+
+if not base:
+    st.caption("Cloud demo mode: calculations run within this app using fixed library code. Docker isolation is not enabled. Uploads are temporary and disappear when the app restarts.")
+
+
 def api(path, method="GET", **kwargs):
     headers = {"Idempotency-Key": str(uuid.uuid4())} if method == "POST" else {}
-    response = requests.request(method, base + path, headers=headers, timeout=60, **kwargs)
+    response = (requests.request(method, base + path, headers=headers, timeout=60, **kwargs)
+                if base else embedded_backend().request(method, path, headers=headers, **kwargs))
     try:
         body = response.json()
     except ValueError:
         raise RuntimeError("The configured backend did not return a valid API response.") from None
-    if not response.ok:
+    if not 200 <= response.status_code < 300:
         raise RuntimeError(body.get("error", {}).get("message", "Backend request failed."))
     return body
 

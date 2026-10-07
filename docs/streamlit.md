@@ -1,26 +1,24 @@
 # Host SureCount with Streamlit
 
-`streamlit_app.py` is a Streamlit interface to the existing SureCount API. It supports upload, preview, questions, clarification, results, verification, sensitivity, currency recovery, download, cancellation, and collapsed AuditCode with Streamlit's code-copy control.
+Select repository rufusch/Proof-Carrying-Data-Analyst, branch main, and entrypoint streamlit_app.py in Streamlit Community Cloud. Select Python 3.12. Dependencies are installed from requirements.txt.
+
+Remove any SURECOUNT_API_URL secret pointing at localhost or a placeholder URL, then reboot the app. With no backend URL configured, SureCount uses its built-in cloud demo runtime. No separate API, Docker daemon, or OpenAI key is required.
+
+The cloud runtime reuses the same parsers, typed query validation, queue, SQL calculation, independent Decimal verification, skeptic checks, recovery forms, and AuditCode generation. It calls only fixed library functions; it never evaluates user-provided or model-generated Python. Agent 1 and Agent 2 remain independent calculation methods within the same app process.
+
+## Cloud runtime limits
+
+Docker/OS isolation and read-only mounts are not provided. The interface states this, and evidence records the actual properties. Use trusted test spreadsheets: parsing and calculations share the app process. Limits are 5 files, 10 MiB each, 25 MiB combined, 50,000 rows, 100 columns, and 10 tables. Uploads and the queue use temporary storage and disappear when the app restarts. A lock serializes processing within one process. This demo mode is not equivalent to the isolated Docker backend.
 
 ## Local run
-
-Keep the existing API and Docker worker running, then run:
 
 ```bash
 pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
 
-The default backend is `http://127.0.0.1:8010`. Set `SURECOUNT_API_URL` to use a different backend, such as `http://127.0.0.1:8000` in Codespaces.
+## Optional isolated backend
 
-## Streamlit Community Cloud
+Set SURECOUNT_API_URL in Streamlit secrets or the environment to a real hosted API URL if you want to use the Docker-powered API and worker instead. A configured but unreachable backend produces a setup message rather than silently changing execution modes. Streamlit Cloud localhost is not your laptop.
 
-Select this repository, branch `main`, and entrypoint `streamlit_app.py`. Set this secret in the app's advanced settings:
-
-```toml
-SURECOUNT_API_URL = "https://your-hosted-surecount-backend.example"
-```
-
-Replace the example with a reachable SureCount backend running its API, database, and Docker worker. Deploying this Streamlit file alone does not start that backend, and a cloud app cannot reach the localhost backend on your laptop. Backend requests are made by the Streamlit server, so iframe embedding and cross-origin browser API configuration are unnecessary. The interface shows a setup message when the backend is unavailable.
-
-The Streamlit frontend uses `requirements.txt`; backend development continues to use `requirements.lock`. Refresh status checks progress without starting duplicate analyses. This frontend is not a pixel-identical copy of the HTML website. A hosted Streamlit deployment has not been performed.
+The embedded runtime is tested locally; reboot your Streamlit Cloud app to deploy the repository update. A hosted deployment was not performed through your Streamlit account.

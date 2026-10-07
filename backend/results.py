@@ -149,7 +149,7 @@ def package(id, dataset, profile, q, decision, answers, output, rerun, attempts,
             "duration_ms": output["resources"]["duration_ms"] + rerun["resources"]["duration_ms"],
             "cpu_time_ms": output["resources"]["cpu_time_ms"] + rerun["resources"]["cpu_time_ms"],
             "peak_memory_bytes": max(output["resources"]["peak_memory_bytes"], rerun["resources"]["peak_memory_bytes"]),
-            "network_enabled": False, "inputs_read_only": True, "output_hash": output["output_hash"]}}
+            "network_enabled": output.get('execution_mode') == 'trusted_library', "inputs_read_only": output.get('execution_mode') != 'trusted_library', "output_hash": output["output_hash"]}}
     if output.get("audit_code"):
         code = output["audit_code"]
         evidence["code_artifacts"].append({"id": "audit_python", "language": "python", "source": code, "sha256": digest(code.encode()), "entry_point": "audit_code.py", "safety_status": "passed"})

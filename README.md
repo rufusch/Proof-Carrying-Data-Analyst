@@ -16,7 +16,7 @@ See the [Scope Note](docs/Scope%20Note.md) for MVP and novelty features, and the
 
 ## Technical overview
 
-To use the Streamlit interface, see [Streamlit hosting](docs/streamlit.md) and run `streamlit run streamlit_app.py`. It connects to the existing SureCount backend.
+To use the Streamlit interface, see [Streamlit hosting](docs/streamlit.md) and run `streamlit run streamlit_app.py`. With no backend URL configured, it runs a built-in cloud demo with the same calculation checks and no Docker isolation. An optional hosted API URL selects the isolated backend instead. See [Data Pipeline & Tech Stacks](docs/Data%20Pipeline%20%26%20Tech%20Stacks.pptx) for the supplied presentation.
 
 FastAPI implementation of [the v1 contract](docs/frontend-backend-contract.md).
 The complete upload/question/result website is served at `/`, for example
