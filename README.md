@@ -1,7 +1,7 @@
-# SureCount — Data Analyst
+# SureCount — Proof-Carrying Financial Data Analyst
 
 ## Problem
-
+HNX26PSI08: Proof-Carrying Data Analyst
 Financial analysts spend time finding figures across spreadsheets, checking formulas, and proving where an answer came from. A fluent answer alone is not enough: incorrect filters, duplicate records, or missing exchange rates can change the result.
 
 ## Application and users
