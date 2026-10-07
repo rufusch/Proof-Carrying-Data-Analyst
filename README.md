@@ -1,5 +1,21 @@
 # SureCount — Data Analyst
 
+## Problem
+
+Financial analysts spend time finding figures across spreadsheets, checking formulas, and proving where an answer came from. A fluent answer alone is not enough: incorrect filters, duplicate records, or missing exchange rates can change the result.
+
+## Application and users
+
+SureCount is a spreadsheet question-answering application built primarily for financial data analysts. Finance teams and reviewers can use it to explore revenue, assets, earnings, period comparisons, and growth while checking the calculation behind each answer.
+
+## How it works
+
+Upload one or more CSV or Excel files and ask a question in everyday language. SureCount maps the question to supported fields and calculations, asks for clarification when needed, and executes the calculation in an isolated environment. Agent 1 and Agent 2 independently check the result, while an extra reviewer tests selected data changes. Verified answers include source evidence, a confidence score, and expandable, copyable AuditCode. Missing inputs produce specific next steps instead of a guessed answer.
+
+See the [Scope Note](docs/Scope%20Note.md) for MVP and novelty features, and the [Working example](docs/Working%20example.md) for a financial analysis walkthrough.
+
+## Technical overview
+
 FastAPI implementation of [the v1 contract](docs/frontend-backend-contract.md).
 The complete upload/question/result website is served at `/`, for example
 `http://127.0.0.1:8010/` in the isolated test environment. It supports CSV, XLSX

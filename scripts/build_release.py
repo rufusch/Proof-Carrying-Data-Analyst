@@ -6,7 +6,7 @@ import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
 TOP={'.gitignore','.dockerignore','.env.example','Dockerfile.sandbox','pyproject.toml','requirements.lock','README.md'}
-EXTENSIONS={'backend':{'.py','.json'},'frontend':{'.html'},'scripts':{'.py','.cjs','.ps1','.sh'},'tests':{'.py'},'docs':{'.md','.json','.yaml'},'samples':{'.csv','.json','.md'},'.github':{'.yml','.yaml'}}
+EXTENSIONS={'backend':{'.py','.json'},'frontend':{'.html'},'scripts':{'.py','.cjs','.ps1','.sh'},'tests':{'.py'},'docs':{'.md','.json','.yaml','.png'},'samples':{'.csv','.json','.md'},'.github':{'.yml','.yaml'}}
 
 
 def source_files():
